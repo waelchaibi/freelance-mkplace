@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Assign freelancer</h2>
+<mat-dialog-content>
+  <p>Order #{{ data.orderId }}</p>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Freelancer</mat-label>
+    <mat-select [formControl]="freelancerControl">
+      @for (f of freelancers(); track f.id) {
+        <mat-option [value]="f.id">{{ f.name }} ({{ f.email }})</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Cancel</button>
+  <button mat-flat-button color="primary" type="button" (click)="confirm()">Assign</button>
+</mat-dialog-actions>

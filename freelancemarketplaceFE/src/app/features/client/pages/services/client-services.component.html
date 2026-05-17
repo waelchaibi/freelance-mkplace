@@ -1,0 +1,33 @@
+<app-page-header title="Browse services" subtitle="Approved freelancer services you can request." />
+
+<mat-form-field appearance="outline" class="search">
+  <mat-label>Search services</mat-label>
+  <input matInput [formControl]="searchControl" placeholder="Title, description, freelancer..." />
+</mat-form-field>
+
+@if (loading()) {
+  <div class="center"><mat-spinner /></div>
+} @else if (filteredServices().length === 0) {
+  <mat-card><mat-card-content>No approved services match your search.</mat-card-content></mat-card>
+} @else {
+  <div class="grid">
+    @for (service of filteredServices(); track service.id) {
+      <mat-card class="service-card">
+        <mat-card-header>
+          <mat-card-title>{{ service.title }}</mat-card-title>
+          <mat-card-subtitle>by {{ service.freelancerName }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ service.description }}</p>
+          <p class="price">{{ service.price | number: '1.2-2' }} TND</p>
+          <app-status-chip [status]="service.status" />
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-flat-button color="primary" [routerLink]="['/client/orders/new']" [queryParams]="{ serviceId: service.id }">
+            Request service
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
+}

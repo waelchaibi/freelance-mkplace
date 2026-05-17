@@ -1,0 +1,26 @@
+<app-page-header title="Admin Dashboard" subtitle="Central control for users, services, orders, and messaging." />
+
+<div class="stats">
+  <mat-card>
+    <mat-card-title>Users</mat-card-title>
+    <mat-card-content><span class="stat">{{ usersCount() }}</span></mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-title>Pending services</mat-card-title>
+    <mat-card-content><span class="stat">{{ pendingServices() }}</span></mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-title>Pending orders</mat-card-title>
+    <mat-card-content><span class="stat">{{ pendingOrders() }}</span></mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-title>Total orders</mat-card-title>
+    <mat-card-content><span class="stat">{{ totalOrders() }}</span></mat-card-content>
+  </mat-card>
+</div>
+
+<div class="actions">
+  <a mat-flat-button color="primary" routerLink="/admin/services">Validate services</a>
+  <a mat-stroked-button routerLink="/admin/orders">Manage orders</a>
+  <a mat-stroked-button routerLink="/admin/messages">Messaging center</a>
+</div>

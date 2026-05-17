@@ -1,0 +1,24 @@
+@if (loading()) {
+  <div class="loading"><mat-spinner diameter="40" /></div>
+} @else {
+  @if (order(); as o) {
+    <app-page-header [title]="'Order #' + o.id" subtitle="Track status and chat with admin.">
+      <a mat-button routerLink="/client/orders">Back to orders</a>
+    </app-page-header>
+
+    <mat-card>
+      <mat-card-content class="details">
+        <p><strong>Service:</strong> {{ o.serviceTitle ?? 'Custom request' }}</p>
+        <p><strong>Status:</strong> <app-status-chip [status]="o.status" /></p>
+        <p><strong>Freelancer:</strong> {{ o.assignedFreelancerName ?? 'Not assigned yet' }}</p>
+        <p><strong>Description:</strong> {{ o.description }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <app-order-messages [orderId]="o.id" />
+  } @else {
+    <app-page-header title="Order not found" subtitle="This order does not exist or is not accessible.">
+      <a mat-button routerLink="/client/orders">Back to orders</a>
+    </app-page-header>
+  }
+}

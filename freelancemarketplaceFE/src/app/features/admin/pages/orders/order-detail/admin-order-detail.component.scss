@@ -1,0 +1,37 @@
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.detail-card {
+  margin-bottom: 1rem;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-form,
+.messages-section {
+  margin-bottom: 1.5rem;
+
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+  }
+}
+
+.hint {
+  margin: 0 0 0.75rem;
+  color: #64748b;
+}
+
+.status-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,44 @@
+<app-page-header
+  title="Validate services"
+  subtitle="Review freelancer listings before they appear to clients."
+/>
+
+<table mat-table [dataSource]="pendingServices()" class="services-table">
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef>Title</th>
+    <td mat-cell *matCellDef="let service">{{ service.title }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="freelancer">
+    <th mat-header-cell *matHeaderCellDef>Freelancer</th>
+    <td mat-cell *matCellDef="let service">{{ service.freelancerName }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef>Price</th>
+    <td mat-cell *matCellDef="let service">{{ service.price | number: '1.2-2' }} €</td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let service">
+      <app-status-chip [status]="service.status" />
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let service">
+      <button mat-flat-button color="primary" type="button" (click)="approve(service)">
+        Approve
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+@if (pendingServices().length === 0) {
+  <p class="empty">No services awaiting validation.</p>
+}

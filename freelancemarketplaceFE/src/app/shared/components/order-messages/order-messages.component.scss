@@ -1,0 +1,55 @@
+.chat-card {
+  margin-top: 1rem;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.thread {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 360px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.bubble {
+  max-width: 80%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: #e2e8f0;
+
+  &.mine {
+    margin-left: auto;
+    background: #dbeafe;
+  }
+
+  .meta {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-bottom: 0.25rem;
+  }
+
+  p {
+    margin: 0;
+    white-space: pre-wrap;
+  }
+}
+
+.empty {
+  color: #64748b;
+}
+
+.composer {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.composer-field {
+  flex: 1;
+}

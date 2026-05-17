@@ -17,11 +17,13 @@ import com.marketplace.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -52,13 +54,24 @@ public class OrderService {
         return mapToResponse(orderRepository.save(order));
     }
 
+    @Transactional(readOnly = true)
     public List<OrderResponse> getClientOrders(Authentication authentication) {
         User client = currentUserService.getCurrentUser(authentication);
         return orderRepository.findByClient(client).stream().map(this::mapToResponse).toList();
     }
 
+    @Transactional(readOnly = true)
     public List<OrderResponse> getAdminOrders() {
         return orderRepository.findAll().stream().map(this::mapToResponse).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<OrderResponse> getFreelancerOrders(Authentication authentication) {
+        User freelancer = currentUserService.getCurrentUser(authentication);
+        if (freelancer.getRole() != Role.FREELANCER) {
+            throw new ApiException("Only freelancers can access assigned orders");
+        }
+        return orderRepository.findByAssignedFreelancer(freelancer).stream().map(this::mapToResponse).toList();
     }
 
     public OrderResponse assignFreelancer(Long orderId, AssignFreelancerRequest request) {
@@ -101,9 +114,36 @@ public class OrderService {
         return mapToResponse(orderRepository.save(order));
     }
 
+    @Transactional(readOnly = true)
     public OrderEntity getById(Long orderId) {
-        return orderRepository.findById(orderId)
+        return orderRepository.findByIdWithDetails(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+    }
+
+    @Transactional(readOnly = true)
+    public OrderResponse getOrderById(Long orderId, Authentication authentication) {
+        User actor = currentUserService.getCurrentUser(authentication);
+        OrderEntity order = getById(orderId);
+
+        switch (actor.getRole()) {
+            case ADMIN -> {
+                return mapToResponse(order);
+            }
+            case CLIENT -> {
+                if (!order.getClient().getId().equals(actor.getId())) {
+                    throw new ApiException("You can only view your own orders");
+                }
+                return mapToResponse(order);
+            }
+            case FREELANCER -> {
+                if (order.getAssignedFreelancer() == null
+                        || !order.getAssignedFreelancer().getId().equals(actor.getId())) {
+                    throw new ApiException("You can only view orders assigned to you");
+                }
+                return mapToResponse(order);
+            }
+            default -> throw new ApiException("Unauthorized");
+        }
     }
 
     private OrderResponse mapToResponse(OrderEntity order) {

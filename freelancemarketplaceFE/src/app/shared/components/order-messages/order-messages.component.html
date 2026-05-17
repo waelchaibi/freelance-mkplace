@@ -1,0 +1,31 @@
+﻿<mat-card class="chat-card">
+  <mat-card-header>
+    <mat-card-title>Messages with Admin</mat-card-title>
+    <mat-card-subtitle>Direct client-freelancer chat is not allowed.</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    @if (loading()) {
+      <div class="loading"><mat-spinner diameter="32" /></div>
+    } @else {
+      <div class="thread">
+        @for (message of messages(); track message.id) {
+          <div class="bubble" [class.mine]="isMine(message)">
+            <div class="meta">{{ message.senderName }} &middot; {{ message.createdAt | date: 'short' }}</div>
+            <p>{{ message.content }}</p>
+          </div>
+        } @empty {
+          <p class="empty">No messages yet. Start the conversation with admin.</p>
+        }
+      </div>
+    }
+
+    <div class="composer">
+      <mat-form-field appearance="outline" class="composer-field">
+        <mat-label>Message to admin</mat-label>
+        <textarea matInput rows="2" [formControl]="messageControl" (keydown.enter)="onEnter($event)"></textarea>
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="button" (click)="send()">Send</button>
+    </div>
+  </mat-card-content>
+</mat-card>

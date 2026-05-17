@@ -1,0 +1,16 @@
+.filter {
+  width: 220px;
+  margin-bottom: 1rem;
+}
+
+.orders-table {
+  width: 100%;
+}
+
+.clickable-row {
+  cursor: pointer;
+
+  &:hover {
+    background: #f1f5f9;
+  }
+}

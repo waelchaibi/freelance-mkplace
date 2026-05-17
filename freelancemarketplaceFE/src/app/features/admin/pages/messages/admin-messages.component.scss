@@ -1,0 +1,16 @@
+.messages-table {
+  width: 100%;
+}
+
+.clickable-row {
+  cursor: pointer;
+
+  &:hover {
+    background: #f1f5f9;
+  }
+}
+
+.empty {
+  margin-top: 1rem;
+  color: #64748b;
+}

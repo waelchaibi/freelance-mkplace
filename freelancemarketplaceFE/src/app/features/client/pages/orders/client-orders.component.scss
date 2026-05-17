@@ -1,0 +1,23 @@
+.filter {
+  width: 220px;
+  margin-bottom: 1rem;
+}
+
+.orders-table {
+  width: 100%;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.clickable-row {
+  cursor: pointer;
+
+  &:hover {
+    background: #f1f5f9;
+  }
+}
+
+.empty {
+  color: #64748b;
+  margin-top: 1rem;
+}

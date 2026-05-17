@@ -1,0 +1,14 @@
+<app-page-header
+  title="Freelancer profile"
+  subtitle="Your public identity on the platform. Service listings represent your offerings."
+/>
+
+@if (profile(); as p) {
+  <mat-card>
+    <mat-card-content class="profile-grid">
+      <p><strong>Name:</strong> {{ p.name }}</p>
+      <p><strong>Email:</strong> {{ p.email }}</p>
+      <p><strong>Role:</strong> {{ p.role }}</p>
+    </mat-card-content>
+  </mat-card>
+}

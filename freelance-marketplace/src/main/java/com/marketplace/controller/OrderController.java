@@ -44,6 +44,18 @@ public class OrderController {
         return orderService.getAdminOrders();
     }
 
+    @GetMapping("/freelancer")
+    @PreAuthorize("hasRole('FREELANCER')")
+    public List<OrderResponse> getFreelancerOrders(Authentication authentication) {
+        return orderService.getFreelancerOrders(authentication);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','FREELANCER')")
+    public OrderResponse getById(@PathVariable Long id, Authentication authentication) {
+        return orderService.getOrderById(id, authentication);
+    }
+
     @PutMapping("/{id}/assign")
     @PreAuthorize("hasRole('ADMIN')")
     public OrderResponse assignFreelancer(@PathVariable Long id, @Valid @RequestBody AssignFreelancerRequest request) {

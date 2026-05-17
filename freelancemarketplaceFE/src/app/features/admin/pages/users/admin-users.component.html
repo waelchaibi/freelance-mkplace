@@ -1,0 +1,30 @@
+<app-page-header title="Users" subtitle="Browse registered clients, freelancers, and admins." />
+
+<mat-form-field appearance="outline" class="filter">
+  <mat-label>Role</mat-label>
+  <mat-select [formControl]="roleControl">
+    @for (opt of roleOptions; track opt.value) {
+      <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<table mat-table [dataSource]="filteredUsers()" class="users-table">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="role">
+    <th mat-header-cell *matHeaderCellDef>Role</th>
+    <td mat-cell *matCellDef="let user">{{ user.role }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

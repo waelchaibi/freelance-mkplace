@@ -1,0 +1,32 @@
+<mat-sidenav-container class="client-shell">
+  <mat-sidenav mode="side" opened class="client-sidenav">
+    <div class="brand">
+      <mat-icon>work</mat-icon>
+      <span>Client Portal</span>
+    </div>
+    <mat-nav-list>
+      @for (item of navItems; track item.route) {
+        <a
+          mat-list-item
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.route.endsWith('dashboard') }"
+        >
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="topbar">
+      <span>{{ auth.getUser()?.name }}</span>
+      <span class="spacer"></span>
+      <button mat-button type="button" (click)="auth.logout()">Logout</button>
+    </mat-toolbar>
+    <main class="content">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

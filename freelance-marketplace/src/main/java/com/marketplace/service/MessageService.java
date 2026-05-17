@@ -14,11 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MessageService {
 
     private final MessageRepository messageRepository;
@@ -27,11 +29,12 @@ public class MessageService {
     private final CurrentUserService currentUserService;
     private final SimpMessagingTemplate messagingTemplate;
 
+    @Transactional(readOnly = true)
     public List<MessageResponse> getByOrder(Long orderId, Authentication authentication) {
         User actor = currentUserService.getCurrentUser(authentication);
         OrderEntity order = orderService.getById(orderId);
         ensureUserCanAccessOrderConversation(actor, order);
-        return messageRepository.findByOrderOrderByCreatedAtAsc(order).stream().map(this::mapToResponse).toList();
+        return messageRepository.findByOrderWithUsers(order).stream().map(this::mapToResponse).toList();
     }
 
     public MessageResponse send(SendMessageRequest request, Authentication authentication) {

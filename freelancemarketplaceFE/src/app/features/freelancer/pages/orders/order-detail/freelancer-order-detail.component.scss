@@ -1,0 +1,19 @@
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.status-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}

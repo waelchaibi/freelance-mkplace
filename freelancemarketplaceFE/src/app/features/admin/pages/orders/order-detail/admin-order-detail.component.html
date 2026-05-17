@@ -1,0 +1,50 @@
+@if (loading()) {
+  <div class="loading"><mat-spinner diameter="40" /></div>
+} @else {
+  @if (order(); as o) {
+    <app-page-header [title]="'Order #' + o.id" subtitle="Assign freelancer, update status, and mediate chat below.">
+      <a mat-stroked-button routerLink="/admin/orders">Back to orders</a>
+    </app-page-header>
+
+    <mat-card class="detail-card">
+      <mat-card-content>
+        <p><strong>Client:</strong> {{ o.clientName }}</p>
+        <p><strong>Service:</strong> {{ o.serviceTitle ?? 'Custom request' }}</p>
+        <p><strong>Description:</strong> {{ o.description }}</p>
+        <p><strong>Freelancer:</strong> {{ o.assignedFreelancerName ?? 'Not assigned' }}</p>
+        <p class="status-row">
+          <strong>Status:</strong>
+          <app-status-chip [status]="o.status" />
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-stroked-button type="button" (click)="openAssign()">Assign freelancer</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <section class="status-form">
+      <h3>Update status</h3>
+      <div class="status-controls">
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select [formControl]="statusControl">
+            @for (status of statusOptions; track status) {
+              <mat-option [value]="status">{{ status.replace('_', ' ') }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="updateStatus()">Save status</button>
+      </div>
+    </section>
+
+    <section class="messages-section">
+      <h3>Messaging</h3>
+      <p class="hint">Send messages to the client or assigned freelancer. Direct client-freelancer chat is disabled.</p>
+      <app-admin-order-messages [order]="o" />
+    </section>
+  } @else {
+    <app-page-header title="Order not found" subtitle="This order may have been removed.">
+      <a mat-stroked-button routerLink="/admin/orders">Back to orders</a>
+    </app-page-header>
+  }
+}
