@@ -1,7 +1,7 @@
 ﻿<mat-card class="chat-card">
   <mat-card-header>
-    <mat-card-title>Messages with Admin</mat-card-title>
-    <mat-card-subtitle>Direct client-freelancer chat is not allowed.</mat-card-subtitle>
+    <mat-card-title>Messages avec l'admin</mat-card-title>
+    <mat-card-subtitle>La messagerie directe client ↔ freelancer est interdite.</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
@@ -11,21 +11,26 @@
       <div class="thread">
         @for (message of messages(); track message.id) {
           <div class="bubble" [class.mine]="isMine(message)">
-            <div class="meta">{{ message.senderName }} &middot; {{ message.createdAt | date: 'short' }}</div>
+            <div class="meta">
+              {{ message.senderName }} · {{ message.createdAt | date: 'short' }}
+              @if (isMine(message)) {
+                <span class="read-status">{{ message.readAt ? 'Lu' : 'Envoyé' }}</span>
+              }
+            </div>
             <p>{{ message.content }}</p>
           </div>
         } @empty {
-          <p class="empty">No messages yet. Start the conversation with admin.</p>
+          <p class="empty">Aucun message. Démarrez la conversation avec l'admin.</p>
         }
       </div>
     }
 
     <div class="composer">
       <mat-form-field appearance="outline" class="composer-field">
-        <mat-label>Message to admin</mat-label>
+        <mat-label>Message à l'admin</mat-label>
         <textarea matInput rows="2" [formControl]="messageControl" (keydown.enter)="onEnter($event)"></textarea>
       </mat-form-field>
-      <button mat-flat-button color="primary" type="button" (click)="send()">Send</button>
+      <button mat-flat-button color="primary" type="button" (click)="send()">Envoyer</button>
     </div>
   </mat-card-content>
 </mat-card>

@@ -1,32 +1,77 @@
-<app-page-header
-  title="Dashboard"
-  subtitle="Overview of your service requests and quick actions."
-/>
+<app-page-header title="Tableau de bord" subtitle="Vue d'ensemble de vos projets et actions rapides." />
 
-<div class="stats">
-  <mat-card>
-    <mat-card-title>Total orders</mat-card-title>
-    <mat-card-content><span class="stat">{{ orders().length }}</span></mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-title>Pending</mat-card-title>
-    <mat-card-content
-      ><span class="stat">{{ countByStatus(OrderStatus.PENDING) }}</span></mat-card-content
-    >
-  </mat-card>
-  <mat-card>
-    <mat-card-title>In progress</mat-card-title>
-    <mat-card-content
-      ><span class="stat">{{ countByStatus(OrderStatus.IN_PROGRESS) }}</span></mat-card-content
-    >
-  </mat-card>
-  <mat-card>
-    <mat-card-title>Done</mat-card-title>
-    <mat-card-content><span class="stat">{{ countByStatus(OrderStatus.DONE) }}</span></mat-card-content>
-  </mat-card>
-</div>
+@if (loading()) {
+  <div class="center"><mat-spinner /></div>
+} @else {
+  @if (error()) {
+    <mat-card class="error-card"><mat-card-content>{{ error() }}</mat-card-content></mat-card>
+  } @else {
+    @if (stats(); as s) {
+      <div class="stats">
+        <mat-card>
+          <mat-card-title>Soumis</mat-card-title>
+          <mat-card-content><span class="stat">{{ s.submittedOrders }}</span></mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-title>Terminés</mat-card-title>
+          <mat-card-content><span class="stat">{{ s.completedOrders }}</span></mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-title>En attente</mat-card-title>
+          <mat-card-content><span class="stat">{{ s.pendingOrders }}</span></mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-title>En cours</mat-card-title>
+          <mat-card-content><span class="stat">{{ s.inProgressOrders }}</span></mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-title>Messages non lus</mat-card-title>
+          <mat-card-content><span class="stat">{{ s.unreadMessages }}</span></mat-card-content>
+        </mat-card>
+      </div>
 
-<div class="actions">
-  <a mat-flat-button color="primary" routerLink="/client/services">Browse services</a>
-  <a mat-stroked-button routerLink="/client/orders">View my orders</a>
-</div>
+      <div class="actions">
+        <a mat-flat-button color="primary" routerLink="/client/services">Parcourir les services</a>
+        <a mat-stroked-button routerLink="/client/orders">Mes projets</a>
+        <button mat-stroked-button type="button" (click)="openMessages()">Messages</button>
+      </div>
+
+      @if (recentOrders().length > 0) {
+        <section class="recent">
+          <h2>Projets récents</h2>
+          <table mat-table [dataSource]="recentOrders()" class="orders-table">
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>#</th>
+              <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="service">
+              <th mat-header-cell *matHeaderCellDef>Projet</th>
+              <td mat-cell *matCellDef="let row">{{ row.title ?? row.serviceTitle ?? 'Demande' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Statut</th>
+              <td mat-cell *matCellDef="let row"><app-status-chip [status]="row.status" /></td>
+            </ng-container>
+
+            <ng-container matColumnDef="deadline">
+              <th mat-header-cell *matHeaderCellDef>Échéance</th>
+              <td mat-cell *matCellDef="let row">{{ row.deadline ? (row.deadline | date: 'mediumDate') : '—' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let row">
+                <a mat-button [routerLink]="['/client/orders', row.id]">Détail</a>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </section>
+      }
+    }
+  }
+}

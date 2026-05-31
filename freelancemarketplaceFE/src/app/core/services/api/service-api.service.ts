@@ -21,4 +21,8 @@ export class ServiceApiService {
   approve(serviceId: number): Observable<MarketplaceService> {
     return this.http.put<MarketplaceService>(`${this.baseUrl}/${serviceId}/approve`, {});
   }
+
+  reject(serviceId: number): Observable<MarketplaceService> {
+    return this.http.put<MarketplaceService>(`${this.baseUrl}/${serviceId}/reject`, {});
+  }
 }

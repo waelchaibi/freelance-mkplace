@@ -15,6 +15,38 @@ export const FREELANCER_ROUTES: Routes = [
           ),
       },
       {
+        path: 'messages',
+        loadComponent: () =>
+          import('../../shared/components/message-inbox/message-inbox.component').then(
+            (m) => m.MessageInboxComponent
+          ),
+        data: {
+          title: 'Messages',
+          subtitle: 'Échangez avec l\'admin sur vos projets assignés.',
+        },
+      },
+      {
+        path: 'feedbacks',
+        loadComponent: () =>
+          import('./pages/feedbacks/freelancer-feedbacks.component').then(
+            (m) => m.FreelancerFeedbacksComponent
+          ),
+      },
+      {
+        path: 'portfolio',
+        loadComponent: () =>
+          import('./pages/portfolio/freelancer-portfolio.component').then(
+            (m) => m.FreelancerPortfolioComponent
+          ),
+      },
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import('../../shared/components/notifications-page/notifications-page.component').then(
+            (m) => m.NotificationsPageComponent
+          ),
+      },
+      {
         path: 'profile',
         loadComponent: () =>
           import('./pages/profile/freelancer-profile.component').then(

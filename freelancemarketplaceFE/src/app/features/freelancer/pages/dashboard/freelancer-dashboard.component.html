@@ -1,27 +1,56 @@
-<app-page-header title="Freelancer Dashboard" subtitle="Manage your services and assigned tasks." />
+<app-page-header title="Tableau de bord" subtitle="Gérez vos services et projets assignés." />
 
-<div class="stats">
-  <mat-card>
-    <mat-card-title>Assigned orders</mat-card-title>
-    <mat-card-content><span class="stat">{{ orders().length }}</span></mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-title>In progress</mat-card-title>
-    <mat-card-content
-      ><span class="stat">{{ countOrders(OrderStatus.IN_PROGRESS) }}</span></mat-card-content
-    >
-  </mat-card>
-  <mat-card>
-    <mat-card-title>Pending services</mat-card-title>
-    <mat-card-content><span class="stat">{{ pendingServices() }}</span></mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-title>Approved services</mat-card-title>
-    <mat-card-content><span class="stat">{{ approvedServices() }}</span></mat-card-content>
-  </mat-card>
-</div>
+@if (loading()) {
+  <div class="center"><mat-spinner /></div>
+} @else {
+  @if (error()) {
+    <mat-card class="error-card"><mat-card-content>{{ error() }}</mat-card-content></mat-card>
+  } @else {
+    @if (stats(); as s) {
+      <div class="stats">
+        <mat-card>
+          <mat-card-title>Projets assignés</mat-card-title>
+          <mat-card-content><span class="stat">{{ s.assignedOrders }}</span></mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-title>En cours</mat-card-title>
+          <mat-card-content><span class="stat">{{ s.inProgressOrders }}</span></mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-title>Terminés</mat-card-title>
+          <mat-card-content><span class="stat">{{ s.completedOrders }}</span></mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-title>Feedbacks reçus</mat-card-title>
+          <mat-card-content><span class="stat">{{ s.reviewCount }}</span></mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-title>Note moyenne</mat-card-title>
+          <mat-card-content
+            ><span class="stat">{{ s.reviewCount ? (s.averageRating | number: '1.1-1') : '—' }}</span></mat-card-content
+          >
+        </mat-card>
+        <mat-card>
+          <mat-card-title>Disponibilité</mat-card-title>
+          <mat-card-content><span class="stat">{{ availability() }}</span></mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-title>Services en attente</mat-card-title>
+          <mat-card-content><span class="stat">{{ s.pendingServices }}</span></mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-title>Messages non lus</mat-card-title>
+          <mat-card-content><span class="stat">{{ s.unreadMessages }}</span></mat-card-content>
+        </mat-card>
+      </div>
 
-<div class="actions">
-  <a mat-flat-button color="primary" routerLink="/freelancer/services/new">Publish service</a>
-  <a mat-stroked-button routerLink="/freelancer/orders">View assigned orders</a>
-</div>
+      <div class="actions">
+        <a mat-flat-button color="primary" routerLink="/freelancer/services/new">Publier un service</a>
+        <a mat-stroked-button routerLink="/freelancer/orders">Projets assignés</a>
+        <a mat-stroked-button routerLink="/freelancer/feedbacks">Mes feedbacks</a>
+        <a mat-stroked-button routerLink="/freelancer/profile">Mon profil</a>
+        <button mat-stroked-button type="button" (click)="openMessages()">Messages</button>
+      </div>
+    }
+  }
+}

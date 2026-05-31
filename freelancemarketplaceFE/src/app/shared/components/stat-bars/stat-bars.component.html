@@ -1,0 +1,12 @@
+<h3>{{ title() }}</h3>
+<div class="bars">
+  @for (entry of data() | keyvalue; track entry.key) {
+    <div class="bar-row">
+      <span class="label">{{ entry.key.replace('_', ' ') }}</span>
+      <div class="track">
+        <div class="fill" [style.width]="barWidth(entry.value)"></div>
+      </div>
+      <span class="value">{{ entry.value }}</span>
+    </div>
+  }
+</div>

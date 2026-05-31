@@ -1,0 +1,21 @@
+@let f = freelancer();
+<mat-card class="preview">
+  <mat-card-header>
+    <mat-card-title>{{ f.name }}</mat-card-title>
+    <mat-card-subtitle>{{ f.specialty ?? 'Freelancer' }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p><strong>Expérience :</strong> {{ f.yearsOfExperience ?? '—' }} ans</p>
+    <p><strong>Tarif journalier :</strong> {{ f.dailyRate != null ? (f.dailyRate | number: '1.0-0') + ' €' : '—' }}</p>
+    <p><strong>Disponibilité :</strong> {{ availabilityLabel(f.availability) }}</p>
+    <p><strong>Note moyenne :</strong> {{ f.averageRating | number: '1.1-1' }} / 5</p>
+    @if (f.skills) {
+      <p><strong>Compétences :</strong> {{ f.skills }}</p>
+    }
+  </mat-card-content>
+  @if (showcaseLink()) {
+    <mat-card-actions>
+      <a mat-stroked-button [routerLink]="showcaseLink()!">Portfolio et avis</a>
+    </mat-card-actions>
+  }
+</mat-card>

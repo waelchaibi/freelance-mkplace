@@ -7,6 +7,7 @@ export interface Message {
   receiverName: string;
   content: string;
   createdAt: string;
+  readAt: string | null;
 }
 
 export interface SendMessageRequest {

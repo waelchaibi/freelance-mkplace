@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>Assign freelancer</h2>
+<h2 mat-dialog-title>Assigner un freelancer</h2>
 <mat-dialog-content>
-  <p>Order #{{ data.orderId }}</p>
+  <p>Projet #{{ data.orderId }}</p>
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Freelancer</mat-label>
     <mat-select [formControl]="freelancerControl">
@@ -9,8 +9,13 @@
       }
     </mat-select>
   </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Échéance (optionnel)</mat-label>
+    <input matInput type="date" [formControl]="deadlineControl" />
+  </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="cancel()">Cancel</button>
-  <button mat-flat-button color="primary" type="button" (click)="confirm()">Assign</button>
+  <button mat-button type="button" (click)="cancel()">Annuler</button>
+  <button mat-flat-button color="primary" type="button" (click)="confirm()">Assigner</button>
 </mat-dialog-actions>

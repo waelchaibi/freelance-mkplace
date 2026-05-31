@@ -1,26 +1,90 @@
-<app-page-header title="Admin Dashboard" subtitle="Central control for users, services, orders, and messaging." />
+<app-page-header title="Dashboard global" subtitle="KPIs, projets actifs, messages en attente et activité." />
 
-<div class="stats">
-  <mat-card>
-    <mat-card-title>Users</mat-card-title>
-    <mat-card-content><span class="stat">{{ usersCount() }}</span></mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-title>Pending services</mat-card-title>
-    <mat-card-content><span class="stat">{{ pendingServices() }}</span></mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-title>Pending orders</mat-card-title>
-    <mat-card-content><span class="stat">{{ pendingOrders() }}</span></mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-title>Total orders</mat-card-title>
-    <mat-card-content><span class="stat">{{ totalOrders() }}</span></mat-card-content>
-  </mat-card>
-</div>
+@if (stats(); as s) {
+  <div class="stats">
+    <mat-card>
+      <mat-card-title>Clients</mat-card-title>
+      <mat-card-content><span class="stat">{{ s.usersByRole['CLIENT'] }}</span></mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-title>Freelancers</mat-card-title>
+      <mat-card-content><span class="stat">{{ s.usersByRole['FREELANCER'] }}</span></mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-title>Projets actifs</mat-card-title>
+      <mat-card-content><span class="stat">{{ s.activeProjects }}</span></mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-title>Messages en attente</mat-card-title>
+      <mat-card-content><span class="stat">{{ s.unreadMessages }}</span></mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-title>Services en attente</mat-card-title>
+      <mat-card-content><span class="stat">{{ s.servicesByStatus['PENDING'] }}</span></mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-title>Note moyenne</mat-card-title>
+      <mat-card-content
+        ><span class="stat">{{ s.totalFeedbacks ? (s.averageFeedbackRating | number: '1.1-1') : '—' }}</span></mat-card-content
+      >
+    </mat-card>
+  </div>
+
+  <div class="charts">
+    <mat-card>
+      <mat-card-content>
+        <app-activity-chart [data]="s.activityLast7Days" />
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>
+        <app-stat-bars title="Projets par statut" [data]="s.ordersByStatus" />
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>
+        <app-stat-bars title="Utilisateurs par rôle" [data]="s.usersByRole" />
+      </mat-card-content>
+    </mat-card>
+  </div>
+}
 
 <div class="actions">
-  <a mat-flat-button color="primary" routerLink="/admin/services">Validate services</a>
-  <a mat-stroked-button routerLink="/admin/orders">Manage orders</a>
-  <a mat-stroked-button routerLink="/admin/messages">Messaging center</a>
+  <a mat-flat-button color="primary" routerLink="/admin/services">Valider services</a>
+  <a mat-stroked-button routerLink="/admin/orders">Gestion projets</a>
+  <a mat-stroked-button routerLink="/admin/messages">Chats clients</a>
+  <a mat-stroked-button routerLink="/admin/feedbacks">Évaluations</a>
+  <a mat-stroked-button routerLink="/admin/notification-log">Notifications envoyées</a>
 </div>
+
+@if (recentPending().length > 0) {
+  <section class="recent">
+    <h2>Projets en attente</h2>
+    <table mat-table [dataSource]="recentPending()" class="orders-table">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="client">
+        <th mat-header-cell *matHeaderCellDef>Client</th>
+        <td mat-cell *matCellDef="let row">{{ row.clientName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Statut</th>
+        <td mat-cell *matCellDef="let row"><app-status-chip [status]="row.status" /></td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-button type="button" (click)="openOrder(row)">Ouvrir</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </section>
+}

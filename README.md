@@ -81,14 +81,31 @@ Once backend is running:
 - Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 - OpenAPI JSON: `http://localhost:8080/v3/api-docs`
 
-## 6) Default Seeded Admin
+## 6) Seeded demo accounts
 
-At startup, backend seeds an admin account if it does not exist:
+On startup (when `app.seed.enabled=true` in `application.properties`), the backend seeds demo users, services, orders, and sample messages if they do not already exist.
 
-- Email: `admin@marketplace.com`
-- Password: `Admin123!`
+| Role | Email | Password |
+|------|--------|----------|
+| Admin | `admin@marketplace.com` | `Admin123!` |
+| Client | `alice@marketplace.com` | `Client123!` |
+| Client | `bob@marketplace.com` | `Client123!` |
+| Freelancer | `sara@marketplace.com` | `Freelancer123!` |
+| Freelancer | `omar@marketplace.com` | `Freelancer123!` |
 
-Use this account to test admin-protected flows.
+**Also seeded (for quick testing):**
+
+- Services (approved + one pending for admin validation)
+- Orders: one **PENDING** (Alice), one **ASSIGNED** to Omar (Bob)
+- Messages on Bob’s assigned order (client ↔ admin ↔ freelancer)
+
+To reset everything and re-seed from scratch:
+
+```bash
+cd freelance-marketplace
+docker compose down -v
+docker compose up --build
+```
 
 ## 7) WebSocket (Current Live Messaging)
 

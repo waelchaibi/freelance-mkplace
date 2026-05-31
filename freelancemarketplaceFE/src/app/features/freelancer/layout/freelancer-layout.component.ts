@@ -6,6 +6,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { NotificationBellComponent } from '../../../shared/components/notification-bell/notification-bell.component';
 
 interface NavItem {
   label: string;
@@ -25,6 +26,7 @@ interface NavItem {
     MatListModule,
     MatIconModule,
     MatButtonModule,
+    NotificationBellComponent,
   ],
   templateUrl: './freelancer-layout.component.html',
   styleUrl: './freelancer-layout.component.scss',
@@ -33,9 +35,13 @@ export class FreelancerLayoutComponent {
   protected readonly auth = inject(AuthService);
 
   readonly navItems: NavItem[] = [
-    { label: 'Dashboard', route: '/freelancer/dashboard', icon: 'dashboard' },
-    { label: 'Profile', route: '/freelancer/profile', icon: 'person' },
-    { label: 'My Services', route: '/freelancer/services', icon: 'design_services' },
-    { label: 'Assigned Orders', route: '/freelancer/orders', icon: 'assignment' },
+    { label: 'Tableau de bord', route: '/freelancer/dashboard', icon: 'dashboard' },
+    { label: 'Profil', route: '/freelancer/profile', icon: 'person' },
+    { label: 'Mon portfolio', route: '/freelancer/portfolio', icon: 'collections' },
+    { label: 'Mes services', route: '/freelancer/services', icon: 'design_services' },
+    { label: 'Projets assignés', route: '/freelancer/orders', icon: 'assignment' },
+    { label: 'Mes feedbacks', route: '/freelancer/feedbacks', icon: 'rate_review' },
+    { label: 'Messages', route: '/freelancer/messages', icon: 'forum' },
+    { label: 'Notifications', route: '/freelancer/notifications', icon: 'notifications' },
   ];
 }

@@ -1,5 +1,6 @@
 package com.marketplace.entity;
 
+import com.marketplace.entity.enums.AvailabilityStatus;
 import com.marketplace.entity.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +15,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.time.Instant;
 
 @Entity
 @Table(name = "users")
@@ -40,4 +44,27 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean enabled = true;
+
+    @Column(length = 120)
+    private String specialty;
+
+    private Integer yearsOfExperience;
+
+    @Column(precision = 12, scale = 2)
+    private BigDecimal dailyRate;
+
+    @Enumerated(EnumType.STRING)
+    private AvailabilityStatus availability;
+
+    @Column(length = 1000)
+    private String skills;
+
+    @Column(length = 500)
+    private String cvUrl;
+
+    private Instant cvUploadedAt;
 }

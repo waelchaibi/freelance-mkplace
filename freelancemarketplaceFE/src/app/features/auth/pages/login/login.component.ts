@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FR_ERR, FR_SNACK } from '../../../../core/i18n/fr-labels';
 import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
@@ -51,8 +52,8 @@ export class LoginComponent {
       },
       error: (err) => {
         this.loading = false;
-        const message = err?.error?.error ?? 'Login failed. Check your credentials.';
-        this.snackBar.open(message, 'Close', { duration: 4000 });
+        const message = err?.error?.error ?? FR_ERR.loginFailed;
+        this.snackBar.open(message, FR_SNACK.close, { duration: 4000 });
       },
     });
   }

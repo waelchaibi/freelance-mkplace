@@ -17,6 +17,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "orders")
 @Getter
@@ -38,6 +41,12 @@ public class OrderEntity {
     @JoinColumn(name = "service_id")
     private ServiceEntity service;
 
+    @Column(nullable = false, length = 200)
+    private String title;
+
+    @Column(length = 100)
+    private String technology;
+
     @Column(nullable = false, length = 2000)
     private String description;
 
@@ -45,7 +54,29 @@ public class OrderEntity {
     @Column(nullable = false)
     private OrderStatus status;
 
+    @Builder.Default
+    @Column(nullable = false)
+    private int progressPercent = 0;
+
     @ManyToOne
     @JoinColumn(name = "assigned_freelancer_id")
     private User assignedFreelancer;
+
+    private LocalDate deadline;
+
+    @Column(updatable = false)
+    private Instant createdAt;
+
+    private Instant assignedAt;
+
+    private Instant inProgressAt;
+
+    private Instant doneAt;
+
+    @jakarta.persistence.PrePersist
+    public void onCreate() {
+        if (this.createdAt == null) {
+            this.createdAt = Instant.now();
+        }
+    }
 }

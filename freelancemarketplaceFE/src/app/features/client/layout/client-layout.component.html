@@ -2,7 +2,7 @@
   <mat-sidenav mode="side" opened class="client-sidenav">
     <div class="brand">
       <mat-icon>work</mat-icon>
-      <span>Client Portal</span>
+      <span>Espace client</span>
     </div>
     <mat-nav-list>
       @for (item of navItems; track item.route) {
@@ -23,7 +23,8 @@
     <mat-toolbar class="topbar">
       <span>{{ auth.getUser()?.name }}</span>
       <span class="spacer"></span>
-      <button mat-button type="button" (click)="auth.logout()">Logout</button>
+      <app-notification-bell notificationsRoute="/client/notifications" />
+      <button mat-button type="button" (click)="auth.logout()">Déconnexion</button>
     </mat-toolbar>
     <main class="content">
       <router-outlet />

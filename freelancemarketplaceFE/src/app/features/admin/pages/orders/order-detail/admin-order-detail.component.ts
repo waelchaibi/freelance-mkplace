@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +9,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
-import { Order, OrderStatus } from '../../../../../core/models/order.model';
+import { FR_ERR, FR_SNACK, frOrderStatus } from '../../../../../core/i18n/fr-labels';
+import { Order, OrderStatus, AssignFreelancerRequest } from '../../../../../core/models/order.model';
 import { OrderApiService } from '../../../../../core/services/api/order-api.service';
 import { applyOrderStatus, bindOrderFromRoute } from '../../../../../core/utils/order-route-loader';
 import { AdminOrderMessagesComponent } from '../../../components/admin-order-messages/admin-order-messages.component';
@@ -23,6 +25,7 @@ import { StatusChipComponent } from '../../../../../shared/components/status-chi
   selector: 'app-admin-order-detail',
   standalone: true,
   imports: [
+    DatePipe,
     ReactiveFormsModule,
     RouterLink,
     MatButtonModule,
@@ -48,6 +51,7 @@ export class AdminOrderDetailComponent {
   readonly statusControl = new FormControl<OrderStatus | null>(null);
 
   readonly statusOptions: OrderStatus[] = Object.values(OrderStatus);
+  readonly frOrderStatus = frOrderStatus;
 
   constructor() {
     bindOrderFromRoute({
@@ -66,16 +70,16 @@ export class AdminOrderDetailComponent {
       data: { orderId: order.id } satisfies AssignFreelancerDialogData,
     });
 
-    ref.afterClosed().subscribe((freelancerId: number | undefined) => {
-      if (!freelancerId) return;
-      this.orderApi.assignFreelancer(order.id, freelancerId).subscribe({
+    ref.afterClosed().subscribe((request: AssignFreelancerRequest | undefined) => {
+      if (!request) return;
+      this.orderApi.assignFreelancer(order.id, request).subscribe({
         next: (updated) => {
           this.order.set(updated);
           this.statusControl.setValue(updated.status);
-          this.snackBar.open('Freelancer assigned', 'Close', { duration: 2500 });
+          this.snackBar.open(FR_SNACK.freelancerAssigned, FR_SNACK.close, { duration: 2500 });
         },
         error: (err) => {
-          this.snackBar.open(err?.error?.error ?? 'Assign failed', 'Close', { duration: 4000 });
+          this.snackBar.open(err?.error?.error ?? FR_ERR.assignFailed, FR_SNACK.close, { duration: 4000 });
         },
       });
     });
@@ -90,10 +94,10 @@ export class AdminOrderDetailComponent {
       next: (updated) => {
         this.order.set(updated);
         this.statusControl.setValue(updated.status);
-        this.snackBar.open('Order status updated', 'Close', { duration: 2500 });
+        this.snackBar.open(FR_SNACK.statusUpdated, FR_SNACK.close, { duration: 2500 });
       },
       error: (err) => {
-        this.snackBar.open(err?.error?.error ?? 'Status update failed', 'Close', { duration: 4000 });
+        this.snackBar.open(err?.error?.error ?? FR_ERR.statusUpdateFailed, FR_SNACK.close, { duration: 4000 });
       },
     });
   }

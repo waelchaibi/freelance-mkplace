@@ -1,26 +1,44 @@
-<app-page-header title="New service request" subtitle="Describe what you need. Admin will review and assign a freelancer." />
+<app-page-header
+  title="Nouveau projet"
+  subtitle="Décrivez votre besoin. L'admin validera et assignera un freelancer."
+/>
 
 <mat-card>
   @if (selectedService(); as service) {
     <mat-card-content class="service-summary">
       <strong>{{ service.title }}</strong>
-      <span>by {{ service.freelancerName }}</span>
+      <span>par {{ service.freelancerName }}</span>
     </mat-card-content>
   }
 
   <mat-card-content>
     <form [formGroup]="form" (ngSubmit)="submit()" class="form">
       <mat-form-field appearance="outline">
-        <mat-label>Request details</mat-label>
+        <mat-label>Titre du projet (optionnel)</mat-label>
+        <input matInput formControlName="title" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Technologie (optionnel)</mat-label>
+        <input matInput formControlName="technology" placeholder="ex. Angular, Java" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Échéance souhaitée (optionnel)</mat-label>
+        <input matInput type="date" formControlName="deadline" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Détails de la demande</mat-label>
         <textarea matInput rows="5" formControlName="description"></textarea>
         @if (form.controls.description.touched && form.controls.description.hasError('required')) {
-          <mat-error>Description is required</mat-error>
+          <mat-error>La description est obligatoire</mat-error>
         }
       </mat-form-field>
 
       <div class="actions">
-        <button mat-flat-button color="primary" type="submit" [disabled]="loading">Submit request</button>
-        <a mat-button routerLink="/client/services">Cancel</a>
+        <button mat-flat-button color="primary" type="submit" [disabled]="loading">Soumettre</button>
+        <a mat-button routerLink="/client/services">Annuler</a>
       </div>
     </form>
   </mat-card-content>

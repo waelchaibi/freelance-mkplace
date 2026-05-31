@@ -10,6 +10,7 @@ public record MessageResponse(
         Long receiverId,
         String receiverName,
         String content,
-        Instant createdAt
+        Instant createdAt,
+        Instant readAt
 ) {
 }

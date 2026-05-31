@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>Assignation — Client → Projet → Freelancer</h2>
+
+<mat-dialog-content>
+  @if (step() === 0) {
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>1. Client</mat-label>
+      <mat-select [formControl]="form.controls.clientId">
+        @for (client of clients(); track client.id) {
+          <mat-option [value]="client.id">{{ client.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  }
+
+  @if (step() === 1) {
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>2. Projet</mat-label>
+      <mat-select [formControl]="form.controls.orderId">
+        @for (order of filteredOrders(); track order.id) {
+          <mat-option [value]="order.id">#{{ order.id }} — {{ order.title }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  }
+
+  @if (step() === 2) {
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>3. Freelancer</mat-label>
+      <mat-select [formControl]="form.controls.freelancerId">
+        @for (f of freelancers(); track f.id) {
+          <mat-option [value]="f.id">{{ f.name }} — {{ f.specialty ?? '—' }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Échéance (optionnel)</mat-label>
+      <input matInput type="date" [formControl]="form.controls.deadline" />
+    </mat-form-field>
+
+    <p class="confirm">Confirmer l'assignation ? Des notifications seront envoyées au client et au freelancer.</p>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  @if (step() > 0) {
+    <button mat-button type="button" (click)="prevStep()">Retour</button>
+  }
+  <button mat-button type="button" mat-dialog-close>Annuler</button>
+  @if (step() < 2) {
+    <button mat-flat-button color="primary" type="button" (click)="nextStep()">Suivant</button>
+  } @else {
+    <button mat-flat-button color="primary" type="button" (click)="confirm()" [disabled]="saving">
+      Confirmer
+    </button>
+  }
+</mat-dialog-actions>

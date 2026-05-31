@@ -1,0 +1,104 @@
+<app-page-header title="Évaluations" subtitle="Créer des évaluations admin et consulter l'historique." />
+
+<mat-card class="create-card">
+  <mat-card-header>
+    <mat-card-title>Nouvelle évaluation</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form" class="form">
+      <mat-form-field appearance="outline">
+        <mat-label>Freelancer</mat-label>
+        <mat-select formControlName="freelancerId">
+          @for (f of freelancers(); track f.id) {
+            <mat-option [value]="f.id">{{ f.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Note globale</mat-label>
+        <mat-select formControlName="rating">
+          @for (r of ratingOptions; track r) {
+            <mat-option [value]="r">{{ r }} / 5</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Qualité</mat-label>
+        <mat-select formControlName="qualityScore">
+          @for (r of ratingOptions; track r) {
+            <mat-option [value]="r">{{ r }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Communication</mat-label>
+        <mat-select formControlName="communicationScore">
+          @for (r of ratingOptions; track r) {
+            <mat-option [value]="r">{{ r }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Délais</mat-label>
+        <mat-select formControlName="timelinessScore">
+          @for (r of ratingOptions; track r) {
+            <mat-option [value]="r">{{ r }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Commentaire</mat-label>
+        <textarea matInput rows="3" formControlName="comment"></textarea>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="button" (click)="submit()" [disabled]="saving">
+        Créer l'évaluation
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<table mat-table [dataSource]="feedbacks()" class="feedbacks-table">
+  <ng-container matColumnDef="freelancer">
+    <th mat-header-cell *matHeaderCellDef>Freelancer</th>
+    <td mat-cell *matCellDef="let row">{{ row.freelancerName }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="rating">
+    <th mat-header-cell *matHeaderCellDef>Note</th>
+    <td mat-cell *matCellDef="let row">{{ row.rating }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="qualityScore">
+    <th mat-header-cell *matHeaderCellDef>Qualité</th>
+    <td mat-cell *matCellDef="let row">{{ row.qualityScore ?? '—' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="communicationScore">
+    <th mat-header-cell *matHeaderCellDef>Communication</th>
+    <td mat-cell *matCellDef="let row">{{ row.communicationScore ?? '—' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="timelinessScore">
+    <th mat-header-cell *matHeaderCellDef>Délais</th>
+    <td mat-cell *matCellDef="let row">{{ row.timelinessScore ?? '—' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="comment">
+    <th mat-header-cell *matHeaderCellDef>Commentaire</th>
+    <td mat-cell *matCellDef="let row">{{ row.comment }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let row">{{ row.createdAt | date: 'medium' }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

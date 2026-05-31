@@ -1,0 +1,26 @@
+<section class="activity-chart" [attr.aria-label]="title()">
+  <h3>{{ title() }}</h3>
+  <div class="bars">
+    @for (point of data(); track point.label) {
+      <div class="day">
+        <div class="bar-group">
+          <div
+            class="bar orders"
+            [style.height.%]="(point.orders / maxValue(point)) * 100"
+            [attr.title]="'Orders: ' + point.orders"
+          ></div>
+          <div
+            class="bar messages"
+            [style.height.%]="(point.messages / maxValue(point)) * 100"
+            [attr.title]="'Messages: ' + point.messages"
+          ></div>
+        </div>
+        <span class="label">{{ point.label }}</span>
+      </div>
+    }
+  </div>
+  <div class="legend">
+    <span class="orders">Orders</span>
+    <span class="messages">Messages</span>
+  </div>
+</section>

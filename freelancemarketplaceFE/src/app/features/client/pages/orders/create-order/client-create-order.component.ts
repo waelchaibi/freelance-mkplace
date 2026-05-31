@@ -8,6 +8,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MarketplaceService } from '../../../../../core/models/service.model';
 import { ServiceApiService } from '../../../../../core/services/api/service-api.service';
+import { FR_ERR, FR_SNACK } from '../../../../../core/i18n/fr-labels';
 import { OrderApiService } from '../../../../../core/services/api/order-api.service';
 import { PageHeaderComponent } from '../../../../../shared/components/page-header/page-header.component';
 
@@ -39,7 +40,10 @@ export class ClientCreateOrderComponent implements OnInit {
   loading = false;
 
   readonly form = this.fb.nonNullable.group({
+    title: ['', [Validators.maxLength(200)]],
+    technology: ['', [Validators.maxLength(100)]],
     description: ['', [Validators.required, Validators.minLength(10)]],
+    deadline: [''],
   });
 
   ngOnInit(): void {
@@ -65,8 +69,11 @@ export class ClientCreateOrderComponent implements OnInit {
 
     this.orderApi
       .create({
+        title: this.form.controls.title.value || null,
+        technology: this.form.controls.technology.value || null,
         description: this.form.controls.description.value,
         serviceId: serviceId ?? null,
+        deadline: this.form.controls.deadline.value || null,
       })
       .subscribe({
         next: (order) => {
@@ -75,7 +82,7 @@ export class ClientCreateOrderComponent implements OnInit {
         },
         error: (err) => {
           this.loading = false;
-          this.snackBar.open(err?.error?.error ?? 'Could not create order', 'Close', { duration: 4000 });
+          this.snackBar.open(err?.error?.error ?? FR_ERR.createOrder, FR_SNACK.close, { duration: 4000 });
         },
       });
   }

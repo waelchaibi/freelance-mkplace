@@ -1,14 +1,108 @@
 <app-page-header
-  title="Freelancer profile"
-  subtitle="Your public identity on the platform. Service listings represent your offerings."
+  title="Mon profil"
+  subtitle="Votre identité professionnelle sur la plateforme."
 />
 
-@if (profile(); as p) {
+<div class="profile-layout">
   <mat-card>
-    <mat-card-content class="profile-grid">
-      <p><strong>Name:</strong> {{ p.name }}</p>
-      <p><strong>Email:</strong> {{ p.email }}</p>
-      <p><strong>Role:</strong> {{ p.role }}</p>
+    <mat-card-header>
+      <mat-card-title>Informations professionnelles</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="profileForm" class="form">
+        <mat-form-field appearance="outline">
+          <mat-label>Nom complet</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Spécialité</mat-label>
+          <input matInput formControlName="specialty" />
+        </mat-form-field>
+
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Années d'expérience</mat-label>
+            <input matInput type="number" formControlName="yearsOfExperience" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Tarif journalier (€)</mat-label>
+            <input matInput type="number" formControlName="dailyRate" />
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Disponibilité</mat-label>
+          <mat-select formControlName="availability">
+            @for (status of availabilityOptions; track status) {
+              <mat-option [value]="status">{{ status === 'AVAILABLE' ? 'Disponible' : status === 'BUSY' ? 'Occupé' : 'Indisponible' }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Compétences</mat-label>
+          <textarea matInput rows="3" formControlName="skills" placeholder="Séparées par des virgules"></textarea>
+        </mat-form-field>
+
+        <div class="cv-upload">
+          <label class="upload-label">
+            <input type="file" accept=".pdf,.doc,.docx,application/pdf" (change)="handleCvUpload($event)" hidden />
+            <button mat-stroked-button type="button">Téléverser CV (PDF/Word)</button>
+          </label>
+          @if (profile()?.cvUploadedAt) {
+            <p class="cv-meta">Dernière mise à jour : {{ profile()!.cvUploadedAt | date: 'medium' }}</p>
+          }
+          <mat-form-field appearance="outline">
+            <mat-label>Ou lien CV</mat-label>
+            <input matInput formControlName="cvUrl" placeholder="https://..." />
+          </mat-form-field>
+          @if (cvPreviewUrl()) {
+            <div class="cv-preview">
+              <p>Aperçu</p>
+              <iframe [src]="cvPreviewUrl()!" title="Aperçu CV" class="cv-frame"></iframe>
+            </div>
+          }
+        </div>
+
+        <button mat-flat-button color="primary" type="button" (click)="saveProfile()" [disabled]="profileSaving">
+          Enregistrer
+        </button>
+      </form>
     </mat-card-content>
   </mat-card>
-}
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Changer le mot de passe</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="passwordForm" class="form">
+        <mat-form-field appearance="outline">
+          <mat-label>Mot de passe actuel</mat-label>
+          <input matInput type="password" formControlName="currentPassword" autocomplete="current-password" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nouveau mot de passe</mat-label>
+          <input matInput type="password" formControlName="newPassword" autocomplete="new-password" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Confirmer</mat-label>
+          <input matInput type="password" formControlName="confirmPassword" autocomplete="new-password" />
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="button" (click)="changePassword()" [disabled]="passwordSaving">
+          Mettre à jour
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

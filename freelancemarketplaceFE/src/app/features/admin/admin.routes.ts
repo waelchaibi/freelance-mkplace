@@ -13,9 +13,36 @@ export const ADMIN_ROUTES: Routes = [
           import('./pages/dashboard/admin-dashboard.component').then((m) => m.AdminDashboardComponent),
       },
       {
-        path: 'users',
+        path: 'notifications',
         loadComponent: () =>
-          import('./pages/users/admin-users.component').then((m) => m.AdminUsersComponent),
+          import('../../shared/components/notifications-page/notifications-page.component').then(
+            (m) => m.NotificationsPageComponent
+          ),
+      },
+      {
+        path: 'clients',
+        loadComponent: () =>
+          import('./pages/users/admin-role-users.component').then((m) => m.AdminRoleUsersComponent),
+        data: {
+          role: 'CLIENT',
+          title: 'Clients',
+          subtitle: 'Gérer les comptes clients et l\'accès à la plateforme.',
+        },
+      },
+      {
+        path: 'freelancers',
+        loadComponent: () =>
+          import('./pages/users/admin-role-users.component').then((m) => m.AdminRoleUsersComponent),
+        data: {
+          role: 'FREELANCER',
+          title: 'Freelancers',
+          subtitle: 'Consultez les profils freelancers et gérez l\'accès aux comptes.',
+        },
+      },
+      {
+        path: 'users',
+        redirectTo: 'clients',
+        pathMatch: 'full',
       },
       {
         path: 'services',
@@ -37,7 +64,25 @@ export const ADMIN_ROUTES: Routes = [
       {
         path: 'messages',
         loadComponent: () =>
-          import('./pages/messages/admin-messages.component').then((m) => m.AdminMessagesComponent),
+          import('../../shared/components/message-inbox/message-inbox.component').then(
+            (m) => m.MessageInboxComponent
+          ),
+        data: {
+          title: 'Centre de messagerie',
+          subtitle: 'Vue consolidée des conversations clients par projet.',
+        },
+      },
+      {
+        path: 'feedbacks',
+        loadComponent: () =>
+          import('./pages/feedbacks/admin-feedbacks.component').then((m) => m.AdminFeedbacksComponent),
+      },
+      {
+        path: 'notification-log',
+        loadComponent: () =>
+          import('./pages/notifications/admin-notification-log.component').then(
+            (m) => m.AdminNotificationLogComponent
+          ),
       },
     ],
   },

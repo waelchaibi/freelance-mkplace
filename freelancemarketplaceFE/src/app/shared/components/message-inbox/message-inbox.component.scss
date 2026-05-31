@@ -1,0 +1,53 @@
+.inbox-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.conversation-list {
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.preview {
+  color: #64748b;
+  font-size: 0.8125rem;
+}
+
+.unread-badge {
+  margin-left: 0.5rem;
+  background: #dc2626;
+  color: #fff;
+  border-radius: 999px;
+  padding: 0 0.4rem;
+  font-size: 0.75rem;
+}
+
+a.active {
+  background: #eff6ff;
+}
+
+.chat-meta {
+  margin-bottom: 0.75rem;
+
+  h3 {
+    margin: 0 0 0.35rem;
+  }
+
+  p {
+    margin: 0.35rem 0 0;
+    color: #64748b;
+  }
+}
+
+.loading,
+.empty {
+  color: #64748b;
+}
+
+@media (max-width: 900px) {
+  .inbox-layout {
+    grid-template-columns: 1fr;
+  }
+}

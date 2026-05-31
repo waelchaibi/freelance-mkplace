@@ -1,0 +1,37 @@
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h2 {
+  margin: 0 0 1rem;
+}
+
+.avg {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.cover {
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+}
+
+.review {
+  margin-bottom: 0.75rem;
+}
+
+.meta {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.empty {
+  color: #64748b;
+}

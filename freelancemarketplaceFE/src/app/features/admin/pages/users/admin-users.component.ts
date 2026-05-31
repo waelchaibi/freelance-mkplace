@@ -4,6 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FR_ROLE, frRole } from '../../../../core/i18n/fr-labels';
 import { Role } from '../../../../core/models/role.enum';
 import { UserProfile } from '../../../../core/models/user-profile.model';
 import { UserApiService } from '../../../../core/services/api/user-api.service';
@@ -32,10 +33,10 @@ export class AdminUsersComponent implements OnInit {
   readonly displayedColumns = ['name', 'email', 'role'];
 
   readonly roleOptions = [
-    { label: 'All roles', value: 'ALL' },
-    { label: 'Admin', value: Role.ADMIN },
-    { label: 'Client', value: Role.CLIENT },
-    { label: 'Freelancer', value: Role.FREELANCER },
+    { label: 'Tous les rôles', value: 'ALL' },
+    { label: FR_ROLE[Role.ADMIN], value: Role.ADMIN },
+    { label: FR_ROLE[Role.CLIENT], value: Role.CLIENT },
+    { label: FR_ROLE[Role.FREELANCER], value: Role.FREELANCER },
   ];
 
   readonly filteredUsers = computed(() => {

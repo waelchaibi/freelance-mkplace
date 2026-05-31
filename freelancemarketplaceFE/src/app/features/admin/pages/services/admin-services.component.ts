@@ -3,6 +3,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { FR_ERR, FR_SNACK } from '../../../../core/i18n/fr-labels';
 import { MarketplaceService, ServiceStatus } from '../../../../core/models/service.model';
 import { ServiceApiService } from '../../../../core/services/api/service-api.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
@@ -40,11 +41,23 @@ export class AdminServicesComponent implements OnInit {
   approve(service: MarketplaceService): void {
     this.serviceApi.approve(service.id).subscribe({
       next: () => {
-        this.snackBar.open('Service approved', 'Close', { duration: 2500 });
+        this.snackBar.open(FR_SNACK.serviceApproved, FR_SNACK.close, { duration: 2500 });
         this.loadServices();
       },
       error: (err) => {
-        this.snackBar.open(err?.error?.error ?? 'Approval failed', 'Close', { duration: 4000 });
+        this.snackBar.open(err?.error?.error ?? FR_ERR.approveFailed, FR_SNACK.close, { duration: 4000 });
+      },
+    });
+  }
+
+  reject(service: MarketplaceService): void {
+    this.serviceApi.reject(service.id).subscribe({
+      next: () => {
+        this.snackBar.open(FR_SNACK.serviceRejected, FR_SNACK.close, { duration: 2500 });
+        this.loadServices();
+      },
+      error: (err) => {
+        this.snackBar.open(err?.error?.error ?? FR_ERR.rejectFailed, FR_SNACK.close, { duration: 4000 });
       },
     });
   }

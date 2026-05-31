@@ -1,17 +1,21 @@
 package com.marketplace.controller;
 
+import com.marketplace.dto.message.ConversationSummaryResponse;
 import com.marketplace.dto.message.MessageResponse;
 import com.marketplace.dto.message.SendMessageRequest;
 import com.marketplace.service.MessageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,6 +27,12 @@ public class MessageController {
 
     private final MessageService messageService;
 
+    @GetMapping("/inbox")
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','FREELANCER')")
+    public List<ConversationSummaryResponse> getInbox(Authentication authentication) {
+        return messageService.getInbox(authentication);
+    }
+
     @GetMapping("/{orderId}")
     @PreAuthorize("hasAnyRole('ADMIN','CLIENT','FREELANCER')")
     public List<MessageResponse> getOrderMessages(@PathVariable Long orderId, Authentication authentication) {
@@ -33,5 +43,12 @@ public class MessageController {
     @PreAuthorize("hasAnyRole('ADMIN','CLIENT','FREELANCER')")
     public MessageResponse send(@Valid @RequestBody SendMessageRequest request, Authentication authentication) {
         return messageService.send(request, authentication);
+    }
+
+    @PutMapping("/{orderId}/read")
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT','FREELANCER')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void markAsRead(@PathVariable Long orderId, Authentication authentication) {
+        messageService.markOrderMessagesAsRead(orderId, authentication);
     }
 }

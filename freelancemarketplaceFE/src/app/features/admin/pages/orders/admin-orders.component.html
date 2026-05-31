@@ -1,7 +1,10 @@
-<app-page-header title="Orders" subtitle="Assign freelancers and track order progress." />
+<app-page-header title="Gestion des projets" subtitle="CRUD, assignation et suivi des projets.">
+  <button mat-flat-button color="primary" type="button" (click)="openCreate()">Créer</button>
+  <button mat-stroked-button type="button" (click)="openAssignWizard()">Assistant assignation</button>
+</app-page-header>
 
 <mat-form-field appearance="outline" class="filter">
-  <mat-label>Status</mat-label>
+  <mat-label>Statut</mat-label>
   <mat-select [formControl]="statusControl">
     @for (opt of statusOptions; track opt.value) {
       <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
@@ -15,6 +18,11 @@
     <td mat-cell *matCellDef="let order">{{ order.id }}</td>
   </ng-container>
 
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef>Titre</th>
+    <td mat-cell *matCellDef="let order">{{ order.title }}</td>
+  </ng-container>
+
   <ng-container matColumnDef="client">
     <th mat-header-cell *matHeaderCellDef>Client</th>
     <td mat-cell *matCellDef="let order">{{ order.clientName }}</td>
@@ -26,19 +34,23 @@
   </ng-container>
 
   <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <th mat-header-cell *matHeaderCellDef>Statut</th>
     <td mat-cell *matCellDef="let order">
       <app-status-chip [status]="order.status" />
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="deadline">
+    <th mat-header-cell *matHeaderCellDef>Échéance</th>
+    <td mat-cell *matCellDef="let order">{{ order.deadline ? (order.deadline | date: 'mediumDate') : '—' }}</td>
+  </ng-container>
+
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let order">
-      <button mat-stroked-button type="button" (click)="$event.stopPropagation(); openAssign(order)">
-        Assign
-      </button>
-      <a mat-button (click)="$event.stopPropagation(); openOrder(order)">Open</a>
+      <button mat-button type="button" (click)="$event.stopPropagation(); openEdit(order)">Modifier</button>
+      <button mat-button type="button" (click)="$event.stopPropagation(); deleteOrder(order)">Supprimer</button>
+      <a mat-button (click)="$event.stopPropagation(); openOrder(order)">Ouvrir</a>
     </td>
   </ng-container>
 

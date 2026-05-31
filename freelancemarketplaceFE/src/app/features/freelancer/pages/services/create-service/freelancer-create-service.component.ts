@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
+import { FR_ERR, FR_SNACK } from '../../../../../core/i18n/fr-labels';
 import { ServiceApiService } from '../../../../../core/services/api/service-api.service';
 import { PageHeaderComponent } from '../../../../../shared/components/page-header/page-header.component';
 
@@ -49,12 +50,12 @@ export class FreelancerCreateServiceComponent {
     this.serviceApi.create(this.form.getRawValue()).subscribe({
       next: () => {
         this.loading = false;
-        this.snackBar.open('Service submitted for admin approval', 'Close', { duration: 3000 });
+        this.snackBar.open(FR_SNACK.serviceSubmitted, FR_SNACK.close, { duration: 3000 });
         void this.router.navigate(['/freelancer/services']);
       },
       error: (err) => {
         this.loading = false;
-        this.snackBar.open(err?.error?.error ?? 'Failed to publish service', 'Close', { duration: 4000 });
+        this.snackBar.open(err?.error?.error ?? FR_ERR.publishService, FR_SNACK.close, { duration: 4000 });
       },
     });
   }

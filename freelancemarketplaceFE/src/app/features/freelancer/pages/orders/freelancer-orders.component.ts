@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { frOrderStatus } from '../../../../core/i18n/fr-labels';
 import { Order, OrderStatus } from '../../../../core/models/order.model';
 import { OrderApiService } from '../../../../core/services/api/order-api.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
@@ -35,8 +36,8 @@ export class FreelancerOrdersComponent implements OnInit {
   readonly displayedColumns = ['id', 'client', 'service', 'status', 'actions'];
 
   readonly statusOptions = [
-    { label: 'All', value: 'ALL' },
-    ...Object.values(OrderStatus).map((s) => ({ label: s.replace('_', ' '), value: s })),
+    { label: 'Tous', value: 'ALL' },
+    ...Object.values(OrderStatus).map((s) => ({ label: frOrderStatus(s), value: s })),
   ];
 
   readonly filteredOrders = computed(() => {

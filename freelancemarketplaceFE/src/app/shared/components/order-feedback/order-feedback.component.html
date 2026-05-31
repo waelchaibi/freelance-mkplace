@@ -1,0 +1,61 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Évaluation</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    @if (existing(); as feedback) {
+      <p><strong>Note globale:</strong> {{ feedback.rating }} / 5</p>
+      <p><strong>Qualité:</strong> {{ feedback.qualityScore }} / 5</p>
+      <p><strong>Communication:</strong> {{ feedback.communicationScore }} / 5</p>
+      <p><strong>Délais:</strong> {{ feedback.timelinessScore }} / 5</p>
+      <p>{{ feedback.comment }}</p>
+    } @else {
+      <form [formGroup]="form" class="form">
+        <mat-form-field appearance="outline">
+          <mat-label>Note globale</mat-label>
+          <mat-select formControlName="rating">
+            @for (rating of ratingOptions; track rating) {
+              <mat-option [value]="rating">{{ rating }} / 5</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Qualité</mat-label>
+          <mat-select formControlName="qualityScore">
+            @for (rating of ratingOptions; track rating) {
+              <mat-option [value]="rating">{{ rating }} / 5</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Communication</mat-label>
+          <mat-select formControlName="communicationScore">
+            @for (rating of ratingOptions; track rating) {
+              <mat-option [value]="rating">{{ rating }} / 5</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Respect des délais</mat-label>
+          <mat-select formControlName="timelinessScore">
+            @for (rating of ratingOptions; track rating) {
+              <mat-option [value]="rating">{{ rating }} / 5</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Commentaire</mat-label>
+          <textarea matInput rows="3" formControlName="comment"></textarea>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="button" (click)="submit()" [disabled]="saving">
+          Envoyer l'évaluation
+        </button>
+      </form>
+    }
+  </mat-card-content>
+</mat-card>

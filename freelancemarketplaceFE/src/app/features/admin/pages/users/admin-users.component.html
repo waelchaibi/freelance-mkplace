@@ -1,7 +1,7 @@
-<app-page-header title="Users" subtitle="Browse registered clients, freelancers, and admins." />
+<app-page-header title="Utilisateurs" subtitle="Parcourir les clients, freelancers et administrateurs inscrits." />
 
 <mat-form-field appearance="outline" class="filter">
-  <mat-label>Role</mat-label>
+  <mat-label>Rôle</mat-label>
   <mat-select [formControl]="roleControl">
     @for (opt of roleOptions; track opt.value) {
       <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
@@ -11,7 +11,7 @@
 
 <table mat-table [dataSource]="filteredUsers()" class="users-table">
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <th mat-header-cell *matHeaderCellDef>Nom</th>
     <td mat-cell *matCellDef="let user">{{ user.name }}</td>
   </ng-container>
 
@@ -21,8 +21,8 @@
   </ng-container>
 
   <ng-container matColumnDef="role">
-    <th mat-header-cell *matHeaderCellDef>Role</th>
-    <td mat-cell *matCellDef="let user">{{ user.role }}</td>
+    <th mat-header-cell *matHeaderCellDef>Rôle</th>
+    <td mat-cell *matCellDef="let user">{{ frRole(user.role) }}</td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

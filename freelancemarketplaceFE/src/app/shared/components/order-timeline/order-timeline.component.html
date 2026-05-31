@@ -1,0 +1,16 @@
+@if (events().length > 0) {
+  <ol class="timeline" aria-label="Chronologie du projet">
+    @for (event of events(); track event.label + event.occurredAt) {
+      <li class="timeline-item">
+        <span class="dot" aria-hidden="true"></span>
+        <div class="content">
+          <strong>{{ event.label }}</strong>
+          <app-status-chip [status]="event.status" />
+          <time [dateTime]="event.occurredAt">{{ event.occurredAt | date: 'medium' }}</time>
+        </div>
+      </li>
+    }
+  </ol>
+} @else {
+  <p class="empty">Aucun événement sur la chronologie pour le moment.</p>
+}

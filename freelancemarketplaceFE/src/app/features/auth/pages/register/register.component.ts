@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FR_ERR, FR_ROLE, FR_SNACK } from '../../../../core/i18n/fr-labels';
 import { RegisterRequest } from '../../../../core/models/auth.model';
 import { Role } from '../../../../core/models/role.enum';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -35,8 +36,8 @@ export class RegisterComponent {
   private readonly snackBar = inject(MatSnackBar);
 
   readonly roles = [
-    { label: 'Client', value: Role.CLIENT },
-    { label: 'Freelancer', value: Role.FREELANCER },
+    { label: FR_ROLE[Role.CLIENT], value: Role.CLIENT },
+    { label: FR_ROLE[Role.FREELANCER], value: Role.FREELANCER },
   ];
 
   loading = false;
@@ -63,8 +64,8 @@ export class RegisterComponent {
       },
       error: (err) => {
         this.loading = false;
-        const message = err?.error?.error ?? 'Registration failed. Try another email.';
-        this.snackBar.open(message, 'Close', { duration: 4000 });
+        const message = err?.error?.error ?? FR_ERR.registerFailed;
+        this.snackBar.open(message, FR_SNACK.close, { duration: 4000 });
       },
     });
   }

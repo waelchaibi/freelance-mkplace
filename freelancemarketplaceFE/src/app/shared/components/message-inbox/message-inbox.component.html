@@ -1,0 +1,59 @@
+<app-page-header [title]="title" [subtitle]="subtitle" />
+
+@if (loading()) {
+  <div class="loading"><mat-spinner diameter="40" /></div>
+} @else {
+  <div class="inbox-layout">
+    <mat-card class="conversation-list">
+      <mat-card-header>
+        <mat-card-title>Conversations</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-nav-list>
+          @for (c of conversations(); track c.orderId) {
+            <a
+              mat-list-item
+              (click)="selectConversation(c)"
+              [class.active]="selectedOrderId() === c.orderId"
+            >
+              <span matListItemTitle>
+                Projet #{{ c.orderId }} — {{ c.orderTitle }}
+                @if (c.unreadCount > 0) {
+                  <span class="unread-badge">{{ c.unreadCount }}</span>
+                }
+              </span>
+              <span matListItemLine>{{ c.counterpartName }}</span>
+              <span matListItemLine class="preview">
+                {{ c.lastMessagePreview ?? 'Aucun message' }}
+              </span>
+              @if (c.lastMessageAt) {
+                <span matListItemMeta>{{ c.lastMessageAt | date: 'short' }}</span>
+              }
+            </a>
+          } @empty {
+            <p class="empty">Aucune conversation.</p>
+          }
+        </mat-nav-list>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="chat-panel">
+      @if (selectedOrderId(); as orderId) {
+        @if (conversations().length) {
+          @for (c of conversations(); track c.orderId) {
+            @if (c.orderId === orderId) {
+              <div class="chat-meta">
+                <h3>Projet #{{ c.orderId }}</h3>
+                <app-status-chip [status]="c.orderStatus" />
+                <p>{{ c.orderDescription }}</p>
+              </div>
+            }
+          }
+        }
+        <app-order-messages [orderId]="orderId" />
+      } @else {
+        <mat-card><mat-card-content>Sélectionnez une conversation pour discuter.</mat-card-content></mat-card>
+      }
+    </div>
+  </div>
+}

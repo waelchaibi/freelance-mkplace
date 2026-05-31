@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Mettre à jour la progression</h2>
+<mat-dialog-content>
+  <p>Progression actuelle : {{ form.controls.progressPercent.value }}%</p>
+  <mat-slider min="0" max="100" step="5" discrete>
+    <input matSliderThumb [formControl]="form.controls.progressPercent" />
+  </mat-slider>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Annuler</button>
+  <button mat-flat-button color="primary" type="button" (click)="save()">Enregistrer</button>
+</mat-dialog-actions>

@@ -1,0 +1,45 @@
+<app-page-header title="Mes évaluations" subtitle="Historique des évaluations reçues avec critères détaillés." />
+
+<table mat-table [dataSource]="feedbacks()" class="feedbacks-table">
+  <ng-container matColumnDef="rating">
+    <th mat-header-cell *matHeaderCellDef>Note</th>
+    <td mat-cell *matCellDef="let row">{{ row.rating }} / 5</td>
+  </ng-container>
+
+  <ng-container matColumnDef="qualityScore">
+    <th mat-header-cell *matHeaderCellDef>Qualité</th>
+    <td mat-cell *matCellDef="let row">{{ row.qualityScore ?? '—' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="communicationScore">
+    <th mat-header-cell *matHeaderCellDef>Communication</th>
+    <td mat-cell *matCellDef="let row">{{ row.communicationScore ?? '—' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="timelinessScore">
+    <th mat-header-cell *matHeaderCellDef>Délais</th>
+    <td mat-cell *matCellDef="let row">{{ row.timelinessScore ?? '—' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="author">
+    <th mat-header-cell *matHeaderCellDef>Auteur</th>
+    <td mat-cell *matCellDef="let row">{{ row.adminName ?? row.clientName ?? '—' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="comment">
+    <th mat-header-cell *matHeaderCellDef>Commentaire</th>
+    <td mat-cell *matCellDef="let row">{{ row.comment }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="createdAt">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let row">{{ row.createdAt | date: 'medium' }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+@if (feedbacks().length === 0) {
+  <p class="empty">Aucune évaluation pour le moment.</p>
+}

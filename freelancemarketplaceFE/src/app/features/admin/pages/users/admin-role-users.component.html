@@ -1,0 +1,93 @@
+<app-page-header [title]="title" [subtitle]="subtitle" />
+
+@if (role === 'FREELANCER') {
+  <div class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Spécialité</mat-label>
+      <input matInput [formControl]="specialtyFilter" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Disponibilité</mat-label>
+      <mat-select [formControl]="availabilityFilter">
+        <mat-option value="">Toutes</mat-option>
+        <mat-option value="AVAILABLE">Disponible</mat-option>
+        <mat-option value="BUSY">Occupé</mat-option>
+        <mat-option value="UNAVAILABLE">Indisponible</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Note min.</mat-label>
+      <input matInput type="number" min="0" max="5" step="0.5" [formControl]="minRatingFilter" />
+    </mat-form-field>
+  </div>
+}
+
+<table mat-table [dataSource]="users()" class="users-table">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Nom</th>
+    <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="specialty">
+    <th mat-header-cell *matHeaderCellDef>Spécialité</th>
+    <td mat-cell *matCellDef="let user">{{ user.specialty ?? '—' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="availability">
+    <th mat-header-cell *matHeaderCellDef>Disponibilité</th>
+    <td mat-cell *matCellDef="let user">{{ frAvailability(user.availability) }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="rating">
+    <th mat-header-cell *matHeaderCellDef>Note</th>
+    <td mat-cell *matCellDef="let user">
+      {{ user.averageRating != null ? (user.averageRating | number: '1.1-1') : '—' }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="enabled">
+    <th mat-header-cell *matHeaderCellDef>Actif</th>
+    <td mat-cell *matCellDef="let user">
+      <mat-slide-toggle
+        [checked]="user.enabled"
+        (change)="toggleEnabled(user, $event)"
+        [disabled]="user.role === 'ADMIN'"
+      />
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let user">
+      @if (role === 'CLIENT') {
+        <button mat-button type="button" (click)="openClientMessages(user)">Discussions</button>
+      }
+      @if (role === 'FREELANCER') {
+        <a mat-button [routerLink]="['/client/freelancers', user.id]">Portfolio</a>
+        @if (user.cvUrl) {
+          <a
+            mat-button
+            [href]="user.cvUrl.startsWith('http') ? user.cvUrl : apiUrl + user.cvUrl"
+            target="_blank"
+            rel="noopener"
+            >CV</a
+          >
+        }
+        <a mat-button routerLink="/admin/feedbacks">Évaluations</a>
+      }
+      <span [class.disabled-label]="!user.enabled">{{ user.enabled ? 'Actif' : 'Désactivé' }}</span>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
+</table>
+
+@if (users().length === 0) {
+  <p class="empty">Aucun utilisateur trouvé.</p>
+}

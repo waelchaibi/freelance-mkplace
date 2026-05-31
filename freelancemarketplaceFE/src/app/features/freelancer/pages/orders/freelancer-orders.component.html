@@ -1,7 +1,7 @@
-<app-page-header title="Assigned orders" subtitle="Tasks assigned to you by admin." />
+<app-page-header title="Projets assignés" subtitle="Tâches qui vous ont été confiées par l'admin." />
 
 <mat-form-field appearance="outline" class="filter">
-  <mat-label>Status</mat-label>
+  <mat-label>Statut</mat-label>
   <mat-select [formControl]="statusControl">
     @for (opt of statusOptions; track opt.value) {
       <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
@@ -22,18 +22,18 @@
 
   <ng-container matColumnDef="service">
     <th mat-header-cell *matHeaderCellDef>Service</th>
-    <td mat-cell *matCellDef="let row">{{ row.serviceTitle ?? 'Custom request' }}</td>
+    <td mat-cell *matCellDef="let row">{{ row.serviceTitle ?? 'Demande personnalisée' }}</td>
   </ng-container>
 
   <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <th mat-header-cell *matHeaderCellDef>Statut</th>
     <td mat-cell *matCellDef="let row"><app-status-chip [status]="row.status" /></td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let row">
-      <a mat-button (click)="$event.stopPropagation(); openOrder(row)">Open</a>
+      <a mat-button (click)="$event.stopPropagation(); openOrder(row)">Ouvrir</a>
     </td>
   </ng-container>
 
@@ -47,5 +47,5 @@
 </table>
 
 @if (filteredOrders().length === 0) {
-  <p class="empty">No assigned orders for this filter.</p>
+  <p class="empty">Aucun projet assigné pour ce filtre.</p>
 }

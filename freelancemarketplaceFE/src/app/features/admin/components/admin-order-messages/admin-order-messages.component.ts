@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FR_ERR, FR_SNACK } from '../../../../core/i18n/fr-labels';
 import { Message } from '../../../../core/models/message.model';
 import { Order } from '../../../../core/models/order.model';
 import { MessageApiService } from '../../../../core/services/api/message-api.service';
@@ -94,7 +95,7 @@ export class AdminOrderMessagesComponent implements OnDestroy {
           this.messageControl.reset();
         },
         error: (err) => {
-          this.snackBar.open(err?.error?.error ?? 'Failed to send message', 'Close', { duration: 4000 });
+          this.snackBar.open(err?.error?.error ?? FR_ERR.sendMessage, FR_SNACK.close, { duration: 4000 });
         },
       });
   }
@@ -127,7 +128,7 @@ export class AdminOrderMessagesComponent implements OnDestroy {
       error: (err) => {
         this.messages.set([]);
         this.loading.set(false);
-        this.snackBar.open(err?.error?.error ?? 'Could not load messages', 'Close', { duration: 4000 });
+        this.snackBar.open(err?.error?.error ?? FR_ERR.loadMessages, FR_SNACK.close, { duration: 4000 });
       },
     });
   }
@@ -141,7 +142,7 @@ export class AdminOrderMessagesComponent implements OnDestroy {
   private async setupWebSocket(orderId: number): Promise<void> {
     try {
       await this.ws.connect();
-      this.unsubscribeWs = this.ws.subscribeToOrder(orderId, (message) => {
+      this.unsubscribeWs = this.ws.subscribeAsAdmin(orderId, (message) => {
         this.appendMessage(message);
       });
     } catch {

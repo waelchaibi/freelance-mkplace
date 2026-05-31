@@ -1,6 +1,7 @@
 export enum ServiceStatus {
   PENDING = 'PENDING',
   APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
 }
 
 export interface CreateServiceRequest {

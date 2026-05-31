@@ -6,6 +6,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { NotificationBellComponent } from '../../../shared/components/notification-bell/notification-bell.component';
 
 interface NavItem {
   label: string;
@@ -25,6 +26,7 @@ interface NavItem {
     MatListModule,
     MatIconModule,
     MatButtonModule,
+    NotificationBellComponent,
   ],
   templateUrl: './client-layout.component.html',
   styleUrl: './client-layout.component.scss',
@@ -33,8 +35,11 @@ export class ClientLayoutComponent {
   protected readonly auth = inject(AuthService);
 
   readonly navItems: NavItem[] = [
-    { label: 'Dashboard', route: '/client/dashboard', icon: 'dashboard' },
+    { label: 'Tableau de bord', route: '/client/dashboard', icon: 'dashboard' },
     { label: 'Services', route: '/client/services', icon: 'storefront' },
-    { label: 'My Orders', route: '/client/orders', icon: 'assignment' },
+    { label: 'Mes projets', route: '/client/orders', icon: 'assignment' },
+    { label: 'Messages', route: '/client/messages', icon: 'forum' },
+    { label: 'Profil', route: '/client/profile', icon: 'person' },
+    { label: 'Notifications', route: '/client/notifications', icon: 'notifications' },
   ];
 }

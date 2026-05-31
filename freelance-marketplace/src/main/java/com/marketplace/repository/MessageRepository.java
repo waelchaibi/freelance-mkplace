@@ -22,5 +22,20 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             """)
     List<Message> findByOrderWithUsers(@Param("order") OrderEntity order);
 
+    @Query("""
+            SELECT m FROM Message m
+            JOIN FETCH m.sender
+            JOIN FETCH m.receiver
+            JOIN FETCH m.order
+            WHERE m.order = :order
+            AND (m.sender.id = :userId OR m.receiver.id = :userId)
+            ORDER BY m.createdAt ASC
+            """)
+    List<Message> findByOrderVisibleToUser(@Param("order") OrderEntity order, @Param("userId") Long userId);
+
     boolean existsByOrderAndSenderAndContent(OrderEntity order, User sender, String content);
+
+    List<Message> findByOrderAndReceiverAndReadAtIsNull(OrderEntity order, User receiver);
+
+    long countByReceiverAndReadAtIsNull(User receiver);
 }

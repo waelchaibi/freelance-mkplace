@@ -48,6 +48,8 @@ public class Message {
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
+    private Instant readAt;
+
     @PrePersist
     public void onCreate() {
         this.createdAt = Instant.now();

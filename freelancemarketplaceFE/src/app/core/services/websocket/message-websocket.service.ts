@@ -28,8 +28,19 @@ export class MessageWebSocketService {
     });
   }
 
-  subscribeToOrder(orderId: number, onMessage: (message: Message) => void): () => void {
-    const subscription = this.client?.subscribe(`/topic/orders/${orderId}`, (frame: IMessage) => {
+  subscribeAsParticipant(orderId: number, userId: number, onMessage: (message: Message) => void): () => void {
+    const subscription = this.client?.subscribe(
+      `/topic/orders/${orderId}/participant/${userId}`,
+      (frame: IMessage) => {
+        onMessage(JSON.parse(frame.body) as Message);
+      }
+    );
+
+    return () => subscription?.unsubscribe();
+  }
+
+  subscribeAsAdmin(orderId: number, onMessage: (message: Message) => void): () => void {
+    const subscription = this.client?.subscribe(`/topic/orders/${orderId}/admin`, (frame: IMessage) => {
       onMessage(JSON.parse(frame.body) as Message);
     });
 

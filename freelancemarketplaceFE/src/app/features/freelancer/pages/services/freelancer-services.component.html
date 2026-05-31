@@ -1,9 +1,9 @@
-<app-page-header title="My services" subtitle="Services you published. Admin must approve before clients can request them.">
-  <a mat-flat-button color="primary" routerLink="/freelancer/services/new">New service</a>
+<app-page-header title="Mes services" subtitle="Services que vous avez publiés. L'admin doit les approuver avant que les clients puissent les demander.">
+  <a mat-flat-button color="primary" routerLink="/freelancer/services/new">Nouveau service</a>
 </app-page-header>
 
 @if (myServices().length === 0) {
-  <mat-card><mat-card-content>No services yet. Publish your first offering.</mat-card-content></mat-card>
+  <mat-card><mat-card-content>Aucun service pour le moment. Publiez votre première offre.</mat-card-content></mat-card>
 } @else {
   <div class="grid">
     @for (service of myServices(); track service.id) {

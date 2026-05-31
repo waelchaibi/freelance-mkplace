@@ -30,6 +30,36 @@ export const CLIENT_ROUTES: Routes = [
           ),
       },
       {
+        path: 'messages',
+        loadComponent: () =>
+          import('../../shared/components/message-inbox/message-inbox.component').then(
+            (m) => m.MessageInboxComponent
+          ),
+        data: {
+          title: 'Messages',
+          subtitle: 'Discutez avec l\'admin pour chaque projet. Pas de contact direct avec le freelancer.',
+        },
+      },
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import('../../shared/components/notifications-page/notifications-page.component').then(
+            (m) => m.NotificationsPageComponent
+          ),
+      },
+      {
+        path: 'freelancers/:id',
+        loadComponent: () =>
+          import('./pages/freelancers/client-freelancer-showcase.component').then(
+            (m) => m.ClientFreelancerShowcaseComponent
+          ),
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./pages/profile/client-profile.component').then((m) => m.ClientProfileComponent),
+      },
+      {
         path: 'orders/:id',
         loadComponent: () =>
           import('./pages/orders/order-detail/client-order-detail.component').then(

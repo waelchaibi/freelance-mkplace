@@ -2,23 +2,44 @@
   <div class="loading"><mat-spinner diameter="40" /></div>
 } @else {
   @if (order(); as o) {
-    <app-page-header [title]="'Order #' + o.id" subtitle="Track status and chat with admin.">
-      <a mat-button routerLink="/client/orders">Back to orders</a>
+    <app-page-header [title]="o.title" subtitle="Détail du projet — échanges et suivi.">
+      <a mat-button routerLink="/client/orders">Retour aux projets</a>
     </app-page-header>
 
     <mat-card>
       <mat-card-content class="details">
-        <p><strong>Service:</strong> {{ o.serviceTitle ?? 'Custom request' }}</p>
-        <p><strong>Status:</strong> <app-status-chip [status]="o.status" /></p>
-        <p><strong>Freelancer:</strong> {{ o.assignedFreelancerName ?? 'Not assigned yet' }}</p>
+        <p><strong>Technologie:</strong> {{ o.technology ?? '—' }}</p>
+        <p><strong>Statut:</strong> <app-status-chip [status]="o.status" /></p>
+        <p><strong>Progression:</strong> {{ o.progressPercent }}%</p>
+        <mat-progress-bar mode="determinate" [value]="o.progressPercent" />
+        <p><strong>Échéance:</strong> {{ o.deadline ? (o.deadline | date: 'mediumDate') : 'Non définie' }}</p>
         <p><strong>Description:</strong> {{ o.description }}</p>
       </mat-card-content>
     </mat-card>
 
+    <section class="section">
+      <h2>Timeline</h2>
+      <app-order-timeline [events]="o.timeline" />
+    </section>
+
+    @if (o.assignedFreelancer) {
+      <section class="section">
+        <h2>Freelancer assigné</h2>
+        <app-freelancer-preview-card
+          [freelancer]="o.assignedFreelancer"
+          [showcaseLink]="'/client/freelancers/' + o.assignedFreelancer.id"
+        />
+      </section>
+    }
+
+    @if (o.status === OrderStatus.DONE) {
+      <app-order-feedback [orderId]="o.id" />
+    }
+
     <app-order-messages [orderId]="o.id" />
   } @else {
-    <app-page-header title="Order not found" subtitle="This order does not exist or is not accessible.">
-      <a mat-button routerLink="/client/orders">Back to orders</a>
+    <app-page-header title="Projet introuvable" subtitle="Ce projet n'existe pas ou n'est pas accessible.">
+      <a mat-button routerLink="/client/orders">Retour</a>
     </app-page-header>
   }
 }

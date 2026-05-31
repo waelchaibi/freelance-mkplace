@@ -12,4 +12,6 @@ public interface ServiceRepository extends JpaRepository<ServiceEntity, Long> {
     List<ServiceEntity> findByStatus(ServiceStatus status);
     List<ServiceEntity> findByFreelancer(User freelancer);
     Optional<ServiceEntity> findByFreelancerAndTitle(User freelancer, String title);
+
+    long countByStatus(ServiceStatus status);
 }

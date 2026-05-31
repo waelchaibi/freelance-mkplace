@@ -3,8 +3,10 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Role } from '../../../../core/models/role.enum';
+import { AssignFreelancerRequest } from '../../../../core/models/order.model';
 import { UserProfile } from '../../../../core/models/user-profile.model';
 import { UserApiService } from '../../../../core/services/api/user-api.service';
 
@@ -20,6 +22,7 @@ export interface AssignFreelancerDialogData {
     MatDialogModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatInputModule,
     MatButtonModule,
   ],
   templateUrl: './assign-freelancer-dialog.component.html',
@@ -32,10 +35,11 @@ export class AssignFreelancerDialogComponent implements OnInit {
 
   readonly freelancers = signal<UserProfile[]>([]);
   readonly freelancerControl = new FormControl<number | null>(null, Validators.required);
+  readonly deadlineControl = new FormControl<string>('');
 
   ngOnInit(): void {
     this.userApi.listUsers(Role.FREELANCER).subscribe({
-      next: (users) => this.freelancers.set(users),
+      next: (users) => this.freelancers.set(users.filter((u) => u.enabled)),
     });
   }
 
@@ -44,7 +48,12 @@ export class AssignFreelancerDialogComponent implements OnInit {
       this.freelancerControl.markAsTouched();
       return;
     }
-    this.dialogRef.close(this.freelancerControl.value);
+
+    const request: AssignFreelancerRequest = {
+      freelancerId: this.freelancerControl.value!,
+      deadline: this.deadlineControl.value || null,
+    };
+    this.dialogRef.close(request);
   }
 
   cancel(): void {

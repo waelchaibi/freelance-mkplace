@@ -1,0 +1,19 @@
+<app-page-header title="Notifications" subtitle="Suivez l'activité sur vos projets et messages." />
+
+<div class="toolbar">
+  <button mat-stroked-button type="button" (click)="markAllRead()">Tout marquer comme lu</button>
+</div>
+
+@for (n of notifications(); track n.id) {
+  <mat-card class="notification-card" [class.unread]="!n.read" (click)="openNotification(n)">
+    <mat-card-header>
+      <mat-card-title>{{ n.title }}</mat-card-title>
+      <mat-card-subtitle>{{ n.createdAt | date: 'medium' }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ n.message }}</p>
+    </mat-card-content>
+  </mat-card>
+} @empty {
+  <p class="empty">Aucune notification.</p>
+}

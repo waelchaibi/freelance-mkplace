@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FR_ERR, FR_SNACK } from '../../../core/i18n/fr-labels';
 import { Message } from '../../../core/models/message.model';
 import { UserProfile } from '../../../core/models/user-profile.model';
 import { MessageApiService } from '../../../core/services/api/message-api.service';
@@ -56,7 +57,7 @@ export class OrderMessagesComponent implements OnDestroy {
         this.admin = admin;
       },
       error: () => {
-        this.snackBar.open('Could not load admin contact', 'Close', { duration: 4000 });
+        this.snackBar.open(FR_ERR.loadAdminContact, FR_SNACK.close, { duration: 4000 });
       },
     });
 
@@ -90,7 +91,7 @@ export class OrderMessagesComponent implements OnDestroy {
     if (!this.admin || this.messageControl.invalid) {
       this.messageControl.markAsTouched();
       if (!this.admin) {
-        this.snackBar.open('Admin contact not ready yet', 'Close', { duration: 3000 });
+        this.snackBar.open(FR_ERR.adminNotReady, FR_SNACK.close, { duration: 3000 });
       }
       return;
     }
@@ -107,7 +108,7 @@ export class OrderMessagesComponent implements OnDestroy {
           this.messageControl.reset();
         },
         error: (err) => {
-          this.snackBar.open(err?.error?.error ?? 'Failed to send message', 'Close', { duration: 4000 });
+          this.snackBar.open(err?.error?.error ?? FR_ERR.sendMessage, FR_SNACK.close, { duration: 4000 });
         },
       });
   }
@@ -126,7 +127,7 @@ export class OrderMessagesComponent implements OnDestroy {
       error: (err) => {
         this.messages.set([]);
         this.loading.set(false);
-        this.snackBar.open(err?.error?.error ?? 'Could not load messages', 'Close', { duration: 4000 });
+        this.snackBar.open(err?.error?.error ?? FR_ERR.loadMessages, FR_SNACK.close, { duration: 4000 });
       },
     });
   }
@@ -138,9 +139,14 @@ export class OrderMessagesComponent implements OnDestroy {
   }
 
   private async setupWebSocket(orderId: number): Promise<void> {
+    const userId = this.auth.getUser()?.userId;
+    if (!userId) {
+      return;
+    }
+
     try {
       await this.ws.connect();
-      this.unsubscribeWs = this.ws.subscribeToOrder(orderId, (message) => {
+      this.unsubscribeWs = this.ws.subscribeAsParticipant(orderId, userId, (message) => {
         this.appendMessage(message);
       });
     } catch {
@@ -149,9 +155,21 @@ export class OrderMessagesComponent implements OnDestroy {
   }
 
   private appendMessage(message: Message): void {
+    if (!this.isVisibleToMe(message)) {
+      return;
+    }
+
     this.messages.update((list) => {
       if (list.some((m) => m.id === message.id)) return list;
       return [...list, message];
     });
+  }
+
+  private isVisibleToMe(message: Message): boolean {
+    const userId = this.auth.getUser()?.userId;
+    if (!userId) {
+      return false;
+    }
+    return message.senderId === userId || message.receiverId === userId;
   }
 }

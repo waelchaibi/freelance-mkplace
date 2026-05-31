@@ -1,4 +1,4 @@
-import { DecimalPipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,8 +25,7 @@ import { StatusChipComponent } from '../../../../shared/components/status-chip/s
     MatInputModule,
     MatProgressSpinnerModule,
     PageHeaderComponent,
-    StatusChipComponent,
-    DecimalPipe,
+    CurrencyPipe,
   ],
   templateUrl: './client-services.component.html',
   styleUrl: './client-services.component.scss',

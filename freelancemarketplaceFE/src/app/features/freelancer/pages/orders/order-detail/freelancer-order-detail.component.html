@@ -2,35 +2,40 @@
   <div class="loading"><mat-spinner diameter="40" /></div>
 } @else {
   @if (order(); as o) {
-    <app-page-header [title]="'Order #' + o.id" subtitle="Update progress and message admin.">
-      <a mat-button routerLink="/freelancer/orders">Back</a>
+    <app-page-header [title]="o.title" subtitle="Mettre à jour la progression et contacter l'admin.">
+      <a mat-button routerLink="/freelancer/orders">Retour</a>
     </app-page-header>
 
     <mat-card>
       <mat-card-content class="details">
-        <p><strong>Client:</strong> {{ o.clientName }}</p>
-        <p><strong>Service:</strong> {{ o.serviceTitle ?? 'Custom request' }}</p>
-        <p><strong>Status:</strong> <app-status-chip [status]="o.status" /></p>
-        <p><strong>Description:</strong> {{ o.description }}</p>
+        <p><strong>Client :</strong> {{ o.clientName }}</p>
+        <p><strong>Technologie :</strong> {{ o.technology ?? '—' }}</p>
+        <p><strong>Statut :</strong> <app-status-chip [status]="o.status" /></p>
+        <p><strong>Progression :</strong> {{ o.progressPercent }}%</p>
+        <mat-progress-bar mode="determinate" [value]="o.progressPercent" />
+        <p><strong>Échéance :</strong> {{ o.deadline ? (o.deadline | date: 'mediumDate') : '—' }}</p>
+        <p><strong>Description :</strong> {{ o.description }}</p>
+
+        <button mat-stroked-button type="button" (click)="openProgressDialog()">Mettre à jour la progression</button>
 
         <div class="status-row">
           <mat-form-field appearance="outline">
-            <mat-label>Update status</mat-label>
+            <mat-label>Statut</mat-label>
             <mat-select [formControl]="statusControl">
               @for (status of statusOptions; track status) {
-                <mat-option [value]="status">{{ status.replace('_', ' ') }}</mat-option>
+                <mat-option [value]="status">{{ frOrderStatus(status) }}</mat-option>
               }
             </mat-select>
           </mat-form-field>
-          <button mat-flat-button color="primary" type="button" (click)="updateStatus()">Save status</button>
+          <button mat-flat-button color="primary" type="button" (click)="updateStatus()">Enregistrer le statut</button>
         </div>
       </mat-card-content>
     </mat-card>
 
     <app-order-messages [orderId]="o.id" />
   } @else {
-    <app-page-header title="Order not found" subtitle="This order is not assigned to you or does not exist.">
-      <a mat-button routerLink="/freelancer/orders">Back to orders</a>
+    <app-page-header title="Projet introuvable" subtitle="Ce projet ne vous est pas assigné ou n'existe pas.">
+      <a mat-button routerLink="/freelancer/orders">Retour aux projets</a>
     </app-page-header>
   }
 }

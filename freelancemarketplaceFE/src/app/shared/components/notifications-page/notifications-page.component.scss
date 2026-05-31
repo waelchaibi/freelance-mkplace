@@ -1,0 +1,35 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.notification {
+  cursor: pointer;
+}
+
+.notification.unread {
+  border-left: 4px solid #2563eb;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.time {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.type {
+  color: #64748b;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.empty {
+  color: #64748b;
+}

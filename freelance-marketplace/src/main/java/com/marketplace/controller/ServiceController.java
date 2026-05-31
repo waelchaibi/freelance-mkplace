@@ -40,4 +40,10 @@ public class ServiceController {
     public ServiceResponse approve(@PathVariable Long id) {
         return serviceService.approve(id);
     }
+
+    @PutMapping("/{id}/reject")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ServiceResponse reject(@PathVariable Long id) {
+        return serviceService.reject(id);
+    }
 }
