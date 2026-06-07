@@ -11,14 +11,36 @@ import { ServiceStatus } from '../../../core/models/service.model';
   template: `<mat-chip [class]="chipClass()">{{ label() }}</mat-chip>`,
   styles: `
     mat-chip {
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 12px;
+      border: 1px solid transparent;
     }
-    .pending { background: #fef3c7; color: #92400e; }
-    .assigned { background: #dbeafe; color: #1e40af; }
-    .in-progress { background: #e0e7ff; color: #3730a3; }
-    .done { background: #dcfce7; color: #166534; }
-    .approved { background: #dcfce7; color: #166534; }
-    .rejected { background: #fee2e2; color: #991b1b; }
+    .pending {
+      background: rgba(245, 158, 11, 0.15) !important;
+      color: #fbbf24 !important;
+      border-color: rgba(245, 158, 11, 0.35);
+    }
+    .assigned {
+      background: rgba(162, 81, 235, 0.15) !important;
+      color: #c084fc !important;
+      border-color: rgba(162, 81, 235, 0.35);
+    }
+    .in-progress {
+      background: rgba(160, 118, 193, 0.2) !important;
+      color: #d8b4fe !important;
+      border-color: rgba(160, 118, 193, 0.4);
+    }
+    .done,
+    .approved {
+      background: rgba(34, 197, 94, 0.15) !important;
+      color: #4ade80 !important;
+      border-color: rgba(34, 197, 94, 0.35);
+    }
+    .rejected {
+      background: rgba(239, 68, 68, 0.15) !important;
+      color: #f87171 !important;
+      border-color: rgba(239, 68, 68, 0.35);
+    }
   `,
 })
 export class StatusChipComponent {

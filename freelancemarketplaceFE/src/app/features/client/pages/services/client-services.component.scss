@@ -1,27 +1,10 @@
 .search {
   width: 100%;
   max-width: 420px;
-  margin-bottom: 1rem;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
+  margin-bottom: var(--space-2);
 }
 
 .service-card p {
-  color: #475569;
-  line-height: 1.5;
-}
-
-.price {
-  font-weight: 600;
-  color: #0f172a;
-}
-
-.center {
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
 }

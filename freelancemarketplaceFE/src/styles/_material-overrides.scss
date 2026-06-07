@@ -1,0 +1,165 @@
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary,
+.mat-mdc-flat-button.mat-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, #8a3fd4 100%) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--radius-sm) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em;
+  transition: var(--transition-base) !important;
+  box-shadow: 0 4px 16px rgba(162, 81, 235, 0.35) !important;
+
+  &:hover:not([disabled]) {
+    background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary) 100%) !important;
+    box-shadow: var(--shadow-glow) !important;
+    transform: translateY(-1px);
+  }
+}
+
+.mat-mdc-outlined-button,
+.mat-mdc-stroked-button {
+  border-color: var(--border-strong) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--radius-sm) !important;
+  transition: var(--transition-base) !important;
+
+  &:hover:not([disabled]) {
+    background: var(--primary-muted) !important;
+    border-color: var(--primary) !important;
+  }
+}
+
+.mat-mdc-button:not(.mat-mdc-icon-button) {
+  color: var(--secondary) !important;
+  border-radius: var(--radius-sm) !important;
+  transition: var(--transition-base) !important;
+
+  &:hover:not([disabled]) {
+    background: var(--primary-muted) !important;
+    color: var(--text-primary) !important;
+  }
+}
+
+.mat-mdc-icon-button {
+  color: var(--text-secondary) !important;
+  transition: var(--transition-base) !important;
+
+  &:hover {
+    background: var(--primary-muted) !important;
+    color: var(--primary) !important;
+  }
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  background: var(--surface-elevated) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-soft), var(--shadow-glow) !important;
+}
+
+.mat-mdc-dialog-title {
+  color: var(--text-primary) !important;
+  font-size: var(--font-section-title) !important;
+  font-weight: 700 !important;
+}
+
+.mat-mdc-dialog-content {
+  color: var(--text-secondary) !important;
+}
+
+.mat-mdc-dialog-actions {
+  padding: var(--space-2) var(--space-3) !important;
+  border-top: 1px solid var(--border);
+}
+
+.mat-mdc-slide-toggle {
+  --mdc-switch-selected-track-color: var(--primary);
+  --mdc-switch-selected-handle-color: var(--text-primary);
+}
+
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: var(--primary);
+  --mdc-linear-progress-track-color: rgba(162, 81, 235, 0.15);
+  border-radius: 999px;
+}
+
+.mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: var(--primary);
+}
+
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: var(--surface-elevated);
+  --mdc-snackbar-supporting-text-color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+.mat-mdc-chip {
+  font-weight: 600 !important;
+  font-size: var(--font-caption) !important;
+  border-radius: 999px !important;
+}
+
+.mat-mdc-list-item {
+  color: inherit;
+}
+
+.mat-drawer-backdrop.mat-drawer-shown {
+  background: rgba(7, 4, 17, 0.7);
+}
+
+.mat-mdc-menu-panel {
+  background: var(--surface-elevated) !important;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+.mat-mdc-menu-item {
+  color: var(--text-secondary) !important;
+
+  &:hover {
+    background: var(--primary-muted) !important;
+    color: var(--text-primary) !important;
+  }
+}
+
+.mat-badge-content {
+  background: var(--primary) !important;
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-tab-group,
+.mat-mdc-tab-header {
+  --mat-tab-header-active-label-text-color: var(--primary);
+  --mat-tab-header-inactive-label-text-color: var(--text-muted);
+}
+
+.mat-mdc-slider {
+  --mdc-slider-active-track-color: var(--primary);
+  --mdc-slider-handle-color: var(--primary);
+  --mdc-slider-inactive-track-color: rgba(162, 81, 235, 0.2);
+}
+
+.mat-datepicker-content {
+  background: var(--surface-elevated) !important;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md) !important;
+}
+
+.mat-calendar {
+  background: var(--surface-elevated) !important;
+  color: var(--text-primary) !important;
+}
+
+.mat-calendar-body-selected {
+  background: var(--primary) !important;
+}
+
+.mat-mdc-tooltip .mdc-tooltip__surface {
+  background: var(--surface-elevated) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border);
+}

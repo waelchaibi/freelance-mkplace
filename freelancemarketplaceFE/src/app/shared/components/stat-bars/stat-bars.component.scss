@@ -1,41 +1,48 @@
 h3 {
-  margin: 0 0 0.75rem;
-  font-size: 1rem;
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-card-title);
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .bars {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-1);
 }
 
 .bar-row {
   display: grid;
   grid-template-columns: 120px 1fr 32px;
-  gap: 0.5rem;
+  gap: var(--space-1);
   align-items: center;
 }
 
 .label {
-  font-size: 0.8125rem;
-  color: #475569;
+  font-size: var(--font-caption);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .track {
-  background: #e2e8f0;
+  background: rgba(162, 81, 235, 0.12);
   border-radius: 999px;
   height: 10px;
   overflow: hidden;
+  border: 1px solid var(--border);
 }
 
 .fill {
-  background: #4f46e5;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
   height: 100%;
   border-radius: 999px;
   min-width: 4px;
+  box-shadow: 0 0 12px rgba(162, 81, 235, 0.4);
 }
 
 .value {
-  font-weight: 600;
-  font-size: 0.875rem;
+  font-weight: 700;
+  font-size: var(--font-body);
+  color: var(--text-primary);
 }

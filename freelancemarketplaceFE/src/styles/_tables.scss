@@ -1,0 +1,57 @@
+@use 'mixins' as *;
+
+.mat-mdc-table,
+table.mat-mdc-table,
+.orders-table,
+.services-table,
+.users-table,
+.feedbacks-table,
+.log-table,
+.messages-table {
+  width: 100%;
+  background: transparent !important;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+
+  .mat-mdc-header-row,
+  .mat-mdc-header-cell,
+  th.mat-mdc-header-cell {
+    background: rgba(162, 81, 235, 0.12) !important;
+    color: var(--text-primary) !important;
+    font-size: var(--font-caption) !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--border) !important;
+    padding: var(--space-2) !important;
+  }
+
+  .mat-mdc-row,
+  .mat-mdc-cell,
+  td.mat-mdc-cell {
+    color: var(--text-secondary) !important;
+    border-bottom: 1px solid rgba(162, 81, 235, 0.08) !important;
+    padding: 14px var(--space-2) !important;
+    font-size: var(--font-body);
+    transition: var(--transition-base);
+  }
+
+  .mat-mdc-row:hover,
+  tr.mat-mdc-row:hover {
+    background: rgba(162, 81, 235, 0.08) !important;
+  }
+
+  .clickable-row {
+    cursor: pointer;
+  }
+}
+
+.mat-mdc-paginator {
+  background: var(--surface) !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-2);
+}

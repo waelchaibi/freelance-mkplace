@@ -7,7 +7,7 @@
 }
 
 .avg {
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.95rem;
 }
 
@@ -28,10 +28,10 @@
 }
 
 .meta {
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.875rem;
 }
 
 .empty {
-  color: #64748b;
+  color: var(--text-muted);
 }

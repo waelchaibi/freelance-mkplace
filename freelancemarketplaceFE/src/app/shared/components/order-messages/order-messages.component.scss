@@ -1,58 +1,38 @@
 .chat-card {
-  margin-top: 1rem;
+  margin-top: var(--space-2);
 }
 
 .loading {
   display: flex;
   justify-content: center;
-  padding: 1.5rem;
+  padding: var(--space-3);
 }
 
 .thread {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--space-1);
   max-height: 360px;
   overflow-y: auto;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-2);
 }
 
 .bubble {
   max-width: 80%;
-  padding: 0.75rem 1rem;
-  border-radius: 12px;
-  background: #e2e8f0;
 
   &.mine {
     margin-left: auto;
-    background: #dbeafe;
-  }
-
-  .meta {
-    font-size: 0.75rem;
-    color: #64748b;
-    margin-bottom: 0.25rem;
   }
 
   .read-status {
-    margin-left: 0.5rem;
-    font-weight: 500;
+    margin-left: var(--space-1);
+    font-weight: 600;
+    color: var(--primary);
   }
 
   p {
-    margin: 0;
     white-space: pre-wrap;
   }
-}
-
-.empty {
-  color: #64748b;
-}
-
-.composer {
-  display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
 }
 
 .composer-field {

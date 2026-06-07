@@ -1,0 +1,125 @@
+@use 'mixins' as *;
+
+.mat-mdc-card {
+  @include glass-surface;
+  color: var(--text-primary) !important;
+  transition: var(--transition-base);
+
+  &:hover {
+    border-color: var(--border-strong);
+  }
+
+  .mat-mdc-card-header {
+    padding: var(--space-2) var(--space-2) 0;
+  }
+
+  .mat-mdc-card-title {
+    font-size: var(--font-card-title) !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+  }
+
+  .mat-mdc-card-subtitle {
+    color: var(--text-secondary) !important;
+  }
+
+  .mat-mdc-card-content {
+    padding: var(--space-2) !important;
+    color: var(--text-secondary);
+    font-size: var(--font-body);
+    line-height: 1.6;
+  }
+
+  .mat-mdc-card-actions {
+    padding: 0 var(--space-2) var(--space-2) !important;
+  }
+}
+
+.panel-section {
+  margin-bottom: var(--space-4);
+
+  h2,
+  h3 {
+    margin: 0 0 var(--space-2);
+    font-size: var(--font-section-title);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .hint {
+    color: var(--text-muted);
+    font-size: var(--font-body);
+    margin: 0 0 var(--space-2);
+  }
+}
+
+.error-card {
+  border-left: 4px solid var(--danger) !important;
+  background: rgba(239, 68, 68, 0.08) !important;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-5);
+}
+
+.empty,
+p.empty {
+  color: var(--text-muted);
+  font-size: var(--font-body);
+  padding: var(--space-4);
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: rgba(31, 10, 56, 0.5);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-5);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  background: rgba(31, 10, 56, 0.6);
+  border: 1px solid var(--border);
+}
+
+.filter {
+  min-width: 200px;
+}
+
+.profile-layout {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+
+.detail-card {
+  margin-bottom: var(--space-3);
+}
+
+.chat-card {
+  margin-top: var(--space-3);
+}

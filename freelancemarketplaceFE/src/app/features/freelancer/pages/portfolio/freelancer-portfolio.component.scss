@@ -27,7 +27,7 @@
 }
 
 .empty {
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .upload-block {
@@ -45,7 +45,7 @@
 .hint {
   margin: 0;
   font-size: 0.85rem;
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .preview {
